@@ -7,10 +7,11 @@ import re
 from realism import *
 
 def remove_char(string, char):
-    return re.sub(char,"", string)
+    return re.sub(char,'', string)
 
 def to_int(string):
-    return int(string)
+    var = remove_char(string, ',')
+    return int(var)
 
 def login_insta(browser, email, password):
     login_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
@@ -21,9 +22,6 @@ def login_insta(browser, email, password):
 
     login_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//button[@type = 'submit']")))
     login_button.click()
-    #//input[@name = 'username']
-    #//input[@name = 'password']
-    #//button[@type = 'submit']
 
 def notifications_popup(browser):
     popup_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]")))
@@ -32,25 +30,28 @@ def notifications_popup(browser):
     #//button[contains(text(), 'Not Now')]
 
 def go_to_profile(browser):
-    #//span[@aria-label = 'Profile']
     profile_icon = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Profile']")))
     profile_icon.click()
 
-def get_username():
+def get_username(browser):
     #//div[@class = 'nZSzR']/h1
-    pass
+    username = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'nZSzR']/h1"))).text()
+    return username
 
-def get_postcount():
+def get_postcount(browser):
     #//li[@class = 'Y8-fY'][1]/a/span
-    pass
+    post_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')]/span/span"))).text
+    return to_int(post_count)
 
-def get_followers():
+def get_followers_count(browser):
     #//li[@class = 'Y8-fY'][2]/a/span
-    pass
+    follower_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/a/span"))).get_attribute("title")
+    return to_int(follower_count)
 
-def get_following():
+def get_following_count(browser):
     #//li[@class = 'Y8-fY'][3]/a/span
-    pass
+    following_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
+    return to_int(following_count)
 
 def is_empty():
     #//div[@class = 'v1Nh3 kIKUG _bz0w']
