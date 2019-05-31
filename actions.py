@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException  
 import re
 from realism import *
 
@@ -53,9 +54,13 @@ def get_following_count(browser):
     following_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
     return to_int(following_count)
 
-def is_empty():
+def is_empty(browser):
     #//div[@class = 'v1Nh3 kIKUG _bz0w']
-    pass
+    try:
+        WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'v1Nh3 kIKUG _bz0w']")))
+    except TimeoutException:
+        return True
+    return False
 
 def like_picture():
     #//span[@aria-label = 'Like']
