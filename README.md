@@ -38,7 +38,7 @@ wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodrive
 
 Chromedriver (Chrome/Chromium) for 64 bits systems:
 ```
-wget https://chromedriver.storage.googleapis.com/75.0.3770.8/chromedriver_linux64.zip && unzip chromedriver_linux64.zip && sudo cp chromedriver /usr/local/bin
+wget https://chromedriver.storage.googleapis.com/75.0.3770.8/chromedriver_linux64.zip && unzip chromedriver_linux64.zip && sudo cp chromedriver /usr/local/bin && cd /usr/local/bin && sudo chmod a+x chromedriver
 ```
 
 Now, it's easy, clone this repo, cd into it and run the following:
