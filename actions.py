@@ -34,7 +34,7 @@ def notifications_popup(browser):
 def go_to_profile(browser):
     #//span[@aria-label = 'Profile']
     profile_icon = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Profile']")))
-    pass
+    profile_icon.click()
 
 def get_username():
     #//div[@class = 'nZSzR']/h1
