@@ -57,11 +57,13 @@ def is_empty():
 
 def like_picture():
     #//span[@aria-label = 'Like']
-    pass
+    like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Like']")))
+    like.click()
 
 def dislike_picture():
     #//span[@aria-label = 'Unlike']
-    pass
+    Unlike = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
+    like.click()
 
 def comment_post():
     #//textarea[@aria-label = 'Add a comment…']
