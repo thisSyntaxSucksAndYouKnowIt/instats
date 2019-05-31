@@ -25,14 +25,15 @@ def login_insta(browser, email, password):
     #//input[@name = 'password']
     #//button[@type = 'submit']
 
-def notifications_popup():
+def notifications_popup(browser):
     popup_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]")))
     popup_box.click()
     #//button[contains(text(), 'Turn On')]
     #//button[contains(text(), 'Not Now')]
 
-def go_to_profile():
+def go_to_profile(browser):
     #//span[@aria-label = 'Profile']
+    profile_icon = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Profile']")))
     pass
 
 def get_username():
