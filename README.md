@@ -60,3 +60,5 @@ It's also has it's flaws. Since it's dependent on the website, it's also depende
 ## Contributing
 If you think you can help me make this bot better and more reliable, feel free to make a new issue and talk to me about what you plan to do.
 
+## Licensing
+https://github.com/thisSyntaxSucksAndYouKnowIt/instats/blob/master/LICENSE
