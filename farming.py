@@ -45,4 +45,12 @@ def collect_likers(browser, num_wanted):
     return usr_list
 
 def sort_profiles(browser, usr_list):
-    pass
+    clean_list = []
+
+    for usr in usr_list:
+        browser.get(usr)
+
+        if is_empty(browser) == False:
+            clean_list.append(usr)
+
+    return clean_list
