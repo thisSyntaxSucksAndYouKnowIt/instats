@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException  
+from selenium.common.exceptions import TimeoutException
 import re
 from realism import *
 
@@ -53,6 +53,10 @@ def get_following_count(browser):
     #//li[@class = 'Y8-fY'][3]/a/span
     following_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
     return to_int(following_count)
+
+def get_number_of_likers(browser):
+    num_likers = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'zV_Nj')]/span"))).text
+    return to_int(num_likers)
 
 def is_empty(browser):
     #//div[@class = 'v1Nh3 kIKUG _bz0w']
