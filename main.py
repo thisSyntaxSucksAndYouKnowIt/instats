@@ -13,6 +13,8 @@ if __name__ == '__main__':
 
     '''
     usr_list = []
+    usr_sorted = []
+
     is_on = True
 
     name = input("Enter mail: ")
@@ -47,6 +49,9 @@ if __name__ == '__main__':
 
             usr_list = collect_likers(driver, number)
 
+
+        if choice == 'b':
+            usr_sorted = sort_profiles(driver, usr_list)
 
         if choice == 'q':
             driver.close()
