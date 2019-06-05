@@ -61,9 +61,10 @@ def get_number_of_likers(browser):
 def is_empty(browser):
     #//div[@class = 'v1Nh3 kIKUG _bz0w']
     try:
-        WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'v1Nh3 kIKUG _bz0w']")))
+        WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'v1Nh3')]")))
     except TimeoutException:
         return True
+
     return False
 
 def like_picture():
