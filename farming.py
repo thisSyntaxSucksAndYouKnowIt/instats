@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from actions import *
 import time
+from tui import *
 
 def collect_likers(browser, num_wanted):
     #//a[contains(@class, 'zV_Nj')]
@@ -34,6 +35,9 @@ def collect_likers(browser, num_wanted):
                 if len(usr_list) == num_wanted:
                     return usr_list
 
+        clear_screen()
+        print("Number of likers collected " + str(len(usr_list)))
+
         browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", like_popup)
 
         time.sleep(2)
@@ -48,11 +52,19 @@ def collect_likers(browser, num_wanted):
 def sort_profiles(browser, usr_list):
     clean_list = []
 
+    usr_count = 1
+
     for usr in usr_list:
         browser.get(usr)
 
+        clear_screen()
+        print("profile " + str(usr_count) + " out of " + str(len(usr_list)))
+        print("clean profile collected: " + str(len(clean_list)))
+
         if is_empty(browser) == False:
             clean_list.append(usr)
+
+        usr_count += 1
 
     return clean_list
 
@@ -60,7 +72,15 @@ def mass_like(browser, usr_list, number_of_likes):
     #//div[contains(@class, 'Nnq7C weEfm')][replace]/div[replace]/a
 
     row = len(browser.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]"))
+    profile_count = 1
+    like_count = 0
+
     for usr in usr_list:
+
+        clear_screen()
+        print("Profile " + str(profile_count) + " out of " + str(len(usr_list)))
+        print("Like count: " + str(like_count))
+
         posts = []
         browser.get(usr)
         for r in (1, row):
@@ -77,3 +97,6 @@ def mass_like(browser, usr_list, number_of_likes):
             browser.get(post)
             time.sleep(1)
             like_picture(browser)
+            like_count += 1
+
+        profile_count += 1
