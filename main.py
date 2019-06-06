@@ -53,6 +53,10 @@ if __name__ == '__main__':
         if choice == 'b':
             usr_sorted = sort_profiles(driver, usr_list)
 
+
+        if choice == 'c':
+            mass_like(driver, usr_sorted, 2)
+
         if choice == 'q':
             driver.close()
             is_on = False
