@@ -67,15 +67,21 @@ def is_empty(browser):
 
     return False
 
-def like_picture():
+def like_picture(browser):
     #//span[@aria-label = 'Like']
-    like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Like']")))
-    like.click()
+    try:
+        like = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Like']")))
+        like.click()
+    except TimeoutException:
+        pass
 
-def dislike_picture():
+def dislike_picture(browser):
     #//span[@aria-label = 'Unlike']
-    Unlike = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
-    like.click()
+    try:
+        Unlike = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
+        like.click()
+    except TimeoutException:
+        pass
 
 def comment_post():
     #//textarea[@aria-label = 'Add a comment…']
