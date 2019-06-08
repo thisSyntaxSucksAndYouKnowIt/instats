@@ -3,8 +3,11 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 import getpass
 import time
 from farming import *
-
+from tui import *
 if __name__ == '__main__':
+
+    clear_screen()
+    title_screen()
     '''
     options = FirefoxOptions()
     options.add_argument("--headless")
