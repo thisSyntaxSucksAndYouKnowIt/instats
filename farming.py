@@ -28,7 +28,11 @@ def collect_likers(browser, num_wanted):
     while a/(b-c) != 1.0:
         num = len(browser.find_elements_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div"))
         for i in range(1, num):
-            href = browser.find_element_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div["+str(i)+"]/div[2]/div/div/a").get_attribute("href")
+            try:
+                href = browser.find_element_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div["+str(i)+"]/div[2]/div/div/a").get_attribute("href")
+            except NoSuchElementException:
+                return 0
+
             if href not in usr_list:
                 usr_list.append(href)
 
@@ -85,13 +89,14 @@ def mass_like(browser, usr_list, number_of_likes):
         browser.get(usr)
         for r in (1, row):
             for c in (1, 3):
-                try:
-                    posts.append(browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href"))
-                except NoSuchElementException:
-                    break
-
                 if len(posts) == number_of_likes:
                     break
+
+                else:
+                    try:
+                        posts.append(browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href"))
+                    except NoSuchElementException:
+                        break
 
         for post in posts:
             browser.get(post)
