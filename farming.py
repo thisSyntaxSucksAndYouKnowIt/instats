@@ -15,7 +15,8 @@ def collect_likers(browser, num_wanted):
 
     usr_list = []
 
-    like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/a")))
+    #like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/a")))
+    like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "zV_Nj")))
     like.click()
     like_popup = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@style, 'height: 356px; overflow: hidden auto;')]")))
 
@@ -49,7 +50,6 @@ def collect_likers(browser, num_wanted):
         a = browser.execute_script("return arguments[0].scrollTop;", like_popup)
         b = browser.execute_script("return arguments[0].scrollHeight;", like_popup)
         c = browser.execute_script("return arguments[0].clientHeight;", like_popup)
-
 
     return usr_list
 
@@ -91,7 +91,6 @@ def mass_like(browser, usr_list, number_of_likes):
             for c in (1, 3):
                 if len(posts) == number_of_likes:
                     break
-
                 else:
                     try:
                         posts.append(browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href"))
@@ -99,6 +98,7 @@ def mass_like(browser, usr_list, number_of_likes):
                         break
 
         for post in posts:
+            print((len(posts)))
             browser.get(post)
             time.sleep(1)
             like_picture(browser)
