@@ -11,6 +11,5 @@ def realistic_typing(box, string):
 
     for char in string:
         delay = random_number()
-        print(delay)
         box.send_keys(char)
         time.sleep(delay)
