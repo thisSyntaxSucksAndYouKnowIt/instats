@@ -9,10 +9,6 @@ import time
 from tui import *
 
 def collect_likers(browser, num_wanted):
-    #//a[contains(@class, 'zV_Nj')]
-    #//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div[number] individual posts
-    #//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div[1]/div/div/a for href
-
     usr_list = []
 
     #like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/a")))
@@ -62,6 +58,7 @@ def sort_profiles(browser, usr_list):
         browser.get(usr)
 
         clear_screen()
+        title_screen()
         print("profile " + str(usr_count) + " out of " + str(len(usr_list)))
         print("clean profile collected: " + str(len(clean_list)))
 
@@ -82,6 +79,7 @@ def mass_like(browser, usr_list, number_of_likes):
     for usr in usr_list:
 
         clear_screen()
+        title_screen()
         print("Profile " + str(profile_count) + " out of " + str(len(usr_list)))
         print("Like count: " + str(like_count))
 
