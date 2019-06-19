@@ -37,6 +37,7 @@ def collect_likers(browser, num_wanted):
                     return usr_list
 
         clear_screen()
+        title_screen()
         print("Number of likers collected " + str(len(usr_list)))
 
         browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", like_popup)
