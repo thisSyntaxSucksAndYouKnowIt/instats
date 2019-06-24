@@ -17,7 +17,8 @@ if __name__ == '__main__':
     '''
     usr_list = []
     usr_sorted = []
-
+    followers_list = []
+    following_list = []
     is_on = True
 
     name = input("Enter mail: ")
@@ -38,6 +39,7 @@ if __name__ == '__main__':
         print("a: farm likers from specific post")
         print("b: sort users from likers farmed")
         print("c: mass like from likers list")
+        print("d: farm followers from profile")
         print("q: quit")
 
         choice = input("Choice: ")
@@ -59,6 +61,12 @@ if __name__ == '__main__':
 
         if choice == 'c':
             mass_like(driver, usr_sorted, 2)
+
+
+        if choice == 'd':
+            profile = input("Which profile you want to collect followers from? ")
+            driver.get("https://www.instagram.com/" + profile)
+            following_list = collect_followers(driver)
 
         if choice == 'q':
             driver.close()
