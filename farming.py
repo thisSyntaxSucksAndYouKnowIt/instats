@@ -119,10 +119,9 @@ def collect_followers(browser):
 
     time.sleep(2)
 
-    a = browser.execute_script("return arguments[0].scrollTop;", like_popup)
-    b = browser.execute_script("return arguments[0].scrollHeight;", like_popup)
-    c = browser.execute_script("return arguments[0].clientHeight;", like_popup)
-
+    a = browser.execute_script("return arguments[0].scrollTop;", followers_popup)
+    b = browser.execute_script("return arguments[0].scrollHeight;", followers_popup)
+    c = browser.execute_script("return arguments[0].clientHeight;", followers_popup)
 
     while a/(b-c) != 1.0:
         browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", followers_popup)
