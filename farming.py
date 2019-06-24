@@ -110,12 +110,12 @@ def collect_followers(browser):
     #//li[@class = 'wo9IH'] number of href
 
     followers_list = []
-    prev_num = 0
+    prev_num = 1
 
     followers_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]")))
     followers_button.click()
 
-    followers_popup = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'PZuss')]")))
+    followers_popup = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'isgrP')]")))
 
     time.sleep(2)
 
@@ -130,8 +130,15 @@ def collect_followers(browser):
         for i in range(prev_num, number_availabe):
             followers_list.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
 
+        a = browser.execute_script("return arguments[0].scrollTop;", followers_popup)
+        b = browser.execute_script("return arguments[0].scrollHeight;", followers_popup)
+        c = browser.execute_script("return arguments[0].clientHeight;", followers_popup)
+
         prev_num = number_availabe
 
+        clear_screen()
+        title_screen()
+        print("number of followers collected: " + str(len(followers_list)))
 
     return followers_list
 
