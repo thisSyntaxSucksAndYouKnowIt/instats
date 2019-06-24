@@ -104,3 +104,37 @@ def mass_like(browser, usr_list, number_of_likes):
             like_count += 1
 
         profile_count += 1
+
+def collect_followers(browser):
+    #//li[@class = 'wo9IH'][num]/div/div/div[2]/div/a individual href
+    #//li[@class = 'wo9IH'] number of href
+
+    followers_list = []
+    prev_num = 0
+
+    followers_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]")))
+    followers_button.click()
+
+    followers_popup = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'PZuss')]")))
+
+    time.sleep(2)
+
+    a = browser.execute_script("return arguments[0].scrollTop;", like_popup)
+    b = browser.execute_script("return arguments[0].scrollHeight;", like_popup)
+    c = browser.execute_script("return arguments[0].clientHeight;", like_popup)
+
+
+    while a/(b-c) != 1.0:
+        browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", followers_popup)
+        number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
+
+        for i in range(prev_num, number_availabe):
+            followers_list.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
+
+        prev_num = number_availabe
+
+
+    return followers_list
+
+def collect_following(browser):
+    pass
