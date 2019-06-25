@@ -143,4 +143,36 @@ def collect_followers(browser):
     return followers_list
 
 def collect_following(browser):
-    pass
+    following_list = []
+    prev_num = 1
+
+    following_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]")))
+    following_button.click()
+
+    following_popup = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'isgrP')]")))
+
+    time.sleep(2)
+
+    a = browser.execute_script("return arguments[0].scrollTop;", following_popup)
+    b = browser.execute_script("return arguments[0].scrollHeight;", following_popup)
+    c = browser.execute_script("return arguments[0].clientHeight;", following_popup)
+
+    while a/(b-c) != 1.0:
+        browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", following_popup)
+        number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
+
+        for i in range(prev_num, number_availabe):
+            following_list.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
+
+        a = browser.execute_script("return arguments[0].scrollTop;", following_popup)
+        b = browser.execute_script("return arguments[0].scrollHeight;", following_popup)
+        c = browser.execute_script("return arguments[0].clientHeight;", following_popup)
+
+        prev_num = number_availabe
+
+        clear_screen()
+        title_screen()
+        print("number of following collected: " + str(len(following_list)))
+
+    return following_list
+
