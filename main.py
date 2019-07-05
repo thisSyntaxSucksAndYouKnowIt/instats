@@ -2,12 +2,17 @@ from actions import *
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 import getpass
 import time
+import os
 from farming import *
 from tui import *
+
 if __name__ == '__main__':
+
+
 
     clear_screen()
     title_screen()
+
     '''
     options = FirefoxOptions()
     options.add_argument("--headless")
@@ -32,6 +37,10 @@ if __name__ == '__main__':
 
     login_insta(driver, name, pwd)
     time.sleep(3)
+
+    notifications_popup(driver)
+    time.sleep(1)
+    go_to_profile(driver)
 
     while is_on == True:
 
