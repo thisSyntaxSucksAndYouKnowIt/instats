@@ -34,6 +34,9 @@ if __name__ == '__main__':
     time.sleep(3)
 
     while is_on == True:
+
+        clear_screen()
+        title_screen()
         print("Instats temp menu")
         print("Options:")
         print("a: farm likers from specific post")
@@ -45,6 +48,9 @@ if __name__ == '__main__':
         choice = input("Choice: ")
 
         if choice == 'a':
+            clear_screen()
+            title_screen()
+
             url = input("Enter url from the post you want to scrape: ")
             driver.get(url)
             number = input("Enter number of profiles you want to scrape " +str(get_number_of_likers(driver))+" available: ")
@@ -64,9 +70,20 @@ if __name__ == '__main__':
 
 
         if choice == 'd':
+            clear_screen()
+            title_screen()
+
             profile = input("Which profile you want to collect followers from? ")
             driver.get("https://www.instagram.com/" + profile)
-            following_list = collect_followers(driver)
+            followers_list = collect_followers(driver)
+
+        if choice == 'e':
+            clear_screen()
+            title_screen()
+
+            profile = input("Which profile you want to collect followings from? ")
+            driver.get("https://www.instagram.com/" + profile)
+            following_list = collect_following(driver)
 
         if choice == 'q':
             driver.close()
