@@ -10,10 +10,6 @@ from realism import *
 def remove_char(string, char):
     return re.sub(char,'', string)
 
-def to_int(string):
-    var = remove_char(string, ',')
-    return int(var)
-
 def login_insta(browser, email, password):
     login_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
     realistic_typing(login_box, email)
@@ -36,27 +32,31 @@ def go_to_profile(browser):
 
 def get_username(browser):
     #//div[@class = 'nZSzR']/h1
-    username = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'nZSzR']/h1"))).text()
+    username = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'nZSzR']/h1"))).text
     return username
 
 def get_postcount(browser):
     #//li[@class = 'Y8-fY'][1]/a/span
     post_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')]/span/span"))).text
-    return to_int(post_count)
+    return is_float(post_count)
 
 def get_followers_count(browser):
     #//li[@class = 'Y8-fY'][2]/a/span
     follower_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/a/span"))).get_attribute("title")
-    return to_int(follower_count)
+    return is_float(follower_count)
 
 def get_following_count(browser):
     #//li[@class = 'Y8-fY'][3]/a/span
     following_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
-    return to_int(following_count)
+    return is_float(following_count)
 
 def get_number_of_likers(browser):
     num_likers = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'zV_Nj')]/span"))).text
-    return to_int(num_likers)
+    return is_float(num_likers)
+
+def is_float(string):
+    var = remove_char(string, ',')
+    return int(var)
 
 def is_empty(browser):
     #//div[@class = 'v1Nh3 kIKUG _bz0w']
