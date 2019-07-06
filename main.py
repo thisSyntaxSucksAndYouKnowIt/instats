@@ -8,8 +8,6 @@ from tui import *
 
 if __name__ == '__main__':
 
-
-
     clear_screen()
     title_screen()
 
@@ -41,6 +39,19 @@ if __name__ == '__main__':
     notifications_popup(driver)
     time.sleep(1)
     go_to_profile(driver)
+    time.sleep(2)
+
+    if not os.path.exists(get_username(driver)):
+        os.makedirs(get_username(driver))
+
+    if not os.path.exists(str(get_username(driver) + "/followers.txt")):
+        os.mknod(str(get_username(driver) + "/followers.txt"))
+
+    if not os.path.exists(str(get_username(driver) + "/followings.txt")):
+        os.mknod(str(get_username(driver) + "/followers.txt"))
+
+    if not os.path.exists(str(get_username(driver) + "/stats.txt")):
+        os.mknod(str(get_username(driver) + "/followers.txt"))
 
     while is_on == True:
 
