@@ -41,17 +41,13 @@ if __name__ == '__main__':
     go_to_profile(driver)
     time.sleep(2)
 
-    if not os.path.exists(get_username(driver)):
+    try:
         os.makedirs(get_username(driver))
-
-    if not os.path.exists(str(get_username(driver) + "/followers.txt")):
         os.mknod(str(get_username(driver) + "/followers.txt"))
-
-    if not os.path.exists(str(get_username(driver) + "/followings.txt")):
         os.mknod(str(get_username(driver) + "/followers.txt"))
-
-    if not os.path.exists(str(get_username(driver) + "/stats.txt")):
         os.mknod(str(get_username(driver) + "/followers.txt"))
+    except FileExistsError:
+        pass
 
     while is_on == True:
 
