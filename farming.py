@@ -12,7 +12,8 @@ def collect_likers(browser, num_wanted):
     usr_list = []
 
     #like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/a")))
-    like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "zV_Nj")))
+    #like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "zV_Nj")))
+    like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/button")))
     like.click()
     like_popup = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@style, 'height: 356px; overflow: hidden auto;')]")))
 
@@ -175,4 +176,3 @@ def collect_following(browser):
         print("number of following collected: " + str(len(following_list)))
 
     return following_list
-
