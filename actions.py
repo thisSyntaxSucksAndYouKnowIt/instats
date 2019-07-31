@@ -51,7 +51,7 @@ def get_following_count(browser):
     return is_float(following_count)
 
 def get_number_of_likers(browser):
-    num_likers = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'zV_Nj')]/span"))).text
+    num_likers = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/button/span"))).text
     return is_float(num_likers)
 
 def is_float(string):
