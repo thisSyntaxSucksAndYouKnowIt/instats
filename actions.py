@@ -5,7 +5,36 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import re
+import os
 from realism import *
+
+def instats_init(browser):
+    try:
+        os.makedirs("Instats_Profiles")
+    except FileExistsError:
+        print("Folder already exists")
+        pass
+
+    choice = input("Press Enter to continue ...")
+
+def create_profile_folders(browser):
+    try:
+        os.makedirs("Instats_Profiles/" + str(get_username(browser)))
+    except FileExistsError:
+        print("Own profile folder already exists")
+        pass
+
+    try:
+        os.mknod("Instats_Profiles/" + str(get_username(browser) + "/followers.txt"))
+    except FileExistsError:
+        print("Followers file already exists")
+        pass
+
+    try:
+        os.mknod("Instats_Profiles/" + str(get_username(browser) + "/following.txt"))
+    except FileExistsError:
+        print("Following file already exists")
+        pass
 
 def remove_char(string, char):
     return re.sub(char,'', string)
@@ -87,3 +116,11 @@ def comment_post():
     #//textarea[@aria-label = 'Add a comment…']
     #//button[@type = 'submit']
     pass
+
+def write_file(path, profile_list):
+    f = open(path, "w+")
+
+    for profile in profile_list:
+        f.write(profile)
+
+    f.close()
