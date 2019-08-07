@@ -43,10 +43,23 @@ if __name__ == '__main__':
 
     try:
         os.makedirs(get_username(driver))
+    except FileExistsError:
+        print("Couldn't create own profile folder")
+        pass
+
+    try:
         os.mknod(str(get_username(driver) + "/followers.txt"))
+    except FileExistsError:
+        print("Couldn't create followers file")
+        pass
+
+    try:
         os.mknod(str(get_username(driver) + "/following.txt"))
     except FileExistsError:
+        print("Couldn't create following file")
         pass
+
+    choice = input("wait")
 
     while is_on == True:
 
@@ -92,6 +105,8 @@ if __name__ == '__main__':
             driver.get("https://www.instagram.com/" + profile)
             followers_list = collect_followers(driver)
 
+            write_file("followers.txt", followers_list)
+
         if choice == 'e':
             clear_screen()
             title_screen()
@@ -99,6 +114,8 @@ if __name__ == '__main__':
             profile = input("Which profile you want to collect followings from? ")
             driver.get("https://www.instagram.com/" + profile)
             following_list = collect_following(driver)
+
+            write_file("following.txt", followers_list)
 
         if choice == 'q':
             driver.close()
