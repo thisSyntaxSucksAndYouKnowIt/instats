@@ -124,6 +124,9 @@ def collect_followers(browser):
     b = browser.execute_script("return arguments[0].scrollHeight;", followers_popup)
     c = browser.execute_script("return arguments[0].clientHeight;", followers_popup)
 
+    browser.execute_script("arguments[0].scroll(0, 300);", followers_popup)
+    time.sleep(2)
+
     while a/(b-c) != 1.0:
         browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", followers_popup)
         number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
@@ -140,6 +143,7 @@ def collect_followers(browser):
         clear_screen()
         title_screen()
         print("number of followers collected: " + str(len(followers_list)))
+        time.sleep(1)
 
     return followers_list
 
@@ -158,6 +162,9 @@ def collect_following(browser):
     b = browser.execute_script("return arguments[0].scrollHeight;", following_popup)
     c = browser.execute_script("return arguments[0].clientHeight;", following_popup)
 
+    browser.execute_script("arguments[0].scroll(0, 300);", following_popup)
+    time.sleep(2)
+
     while a/(b-c) != 1.0:
         browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", following_popup)
         number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
@@ -174,5 +181,7 @@ def collect_following(browser):
         clear_screen()
         title_screen()
         print("number of following collected: " + str(len(following_list)))
+        time.sleep(1)
 
     return following_list
+
