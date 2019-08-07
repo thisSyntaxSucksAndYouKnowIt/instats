@@ -44,8 +44,7 @@ if __name__ == '__main__':
     try:
         os.makedirs(get_username(driver))
         os.mknod(str(get_username(driver) + "/followers.txt"))
-        os.mknod(str(get_username(driver) + "/followers.txt"))
-        os.mknod(str(get_username(driver) + "/followers.txt"))
+        os.mknod(str(get_username(driver) + "/following.txt"))
     except FileExistsError:
         pass
 
@@ -56,8 +55,8 @@ if __name__ == '__main__':
         print("Instats temp menu")
         print("Options:")
         print("a: farm likers from specific post")
-        print("b: sort users from likers farmed")
-        print("c: mass like from likers list")
+        print("b: sort users from likers farmed " + str(len(usr_list)))
+        print("c: mass like from likers list " + str(len(usr_sorted)))
         print("d: farm followers from profile")
         print("q: quit")
 
