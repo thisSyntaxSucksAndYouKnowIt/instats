@@ -2,7 +2,6 @@ from actions import *
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 import getpass
 import time
-import os
 from farming import *
 from tui import *
 
@@ -41,25 +40,7 @@ if __name__ == '__main__':
     go_to_profile(driver)
     time.sleep(2)
 
-    try:
-        os.makedirs(get_username(driver))
-    except FileExistsError:
-        print("Couldn't create own profile folder")
-        pass
-
-    try:
-        os.mknod(str(get_username(driver) + "/followers.txt"))
-    except FileExistsError:
-        print("Couldn't create followers file")
-        pass
-
-    try:
-        os.mknod(str(get_username(driver) + "/following.txt"))
-    except FileExistsError:
-        print("Couldn't create following file")
-        pass
-
-    choice = input("wait")
+    instats_init(driver)
 
     while is_on == True:
 
@@ -71,6 +52,7 @@ if __name__ == '__main__':
         print("b: sort users from likers farmed " + str(len(usr_list)))
         print("c: mass like from likers list " + str(len(usr_sorted)))
         print("d: farm followers from profile")
+        print("e: farm following from profile")
         print("q: quit")
 
         choice = input("Choice: ")
@@ -103,9 +85,12 @@ if __name__ == '__main__':
 
             profile = input("Which profile you want to collect followers from? ")
             driver.get("https://www.instagram.com/" + profile)
+            time.sleep(2)
+
+            create_profile_folders(driver)
             followers_list = collect_followers(driver)
 
-            write_file("followers.txt", followers_list)
+            write_file("Instats_Profiles/" + str(profile) + "followers.txt", followers_list)
 
         if choice == 'e':
             clear_screen()
@@ -113,9 +98,13 @@ if __name__ == '__main__':
 
             profile = input("Which profile you want to collect followings from? ")
             driver.get("https://www.instagram.com/" + profile)
+            time.sleep(2)
+
+            create_profile_folders(driver)
+
             following_list = collect_following(driver)
 
-            write_file("following.txt", followers_list)
+            write_file("Instats_Profiles/" + str(profile) + "following.txt", following_list)
 
         if choice == 'q':
             driver.close()
