@@ -7,6 +7,8 @@ from tui import *
 
 if __name__ == '__main__':
 
+    instats_init()
+
     clear_screen()
     title_screen()
 
@@ -17,6 +19,7 @@ if __name__ == '__main__':
     driver.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
 
     '''
+
     usr_list = []
     usr_sorted = []
     followers_list = []
@@ -40,12 +43,11 @@ if __name__ == '__main__':
     go_to_profile(driver)
     time.sleep(2)
 
-    instats_init(driver)
-
     while is_on == True:
 
         clear_screen()
         title_screen()
+
         print("Instats temp menu")
         print("Options:")
         print("a: farm likers from specific post")
@@ -90,7 +92,7 @@ if __name__ == '__main__':
             create_profile_folders(driver)
             followers_list = collect_followers(driver)
 
-            write_file("Instats_Profiles/" + str(profile) + "followers.txt", followers_list)
+            write_file("Instats_Profiles/" + str(profile) + "/followers.txt", followers_list)
 
         if choice == 'e':
             clear_screen()
@@ -101,10 +103,9 @@ if __name__ == '__main__':
             time.sleep(2)
 
             create_profile_folders(driver)
-
             following_list = collect_following(driver)
 
-            write_file("Instats_Profiles/" + str(profile) + "following.txt", following_list)
+            write_file("Instats_Profiles/" + str(profile) + "/following.txt", following_list)
 
         if choice == 'q':
             driver.close()
