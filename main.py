@@ -22,10 +22,6 @@ if __name__ == '__main__':
     '''
     list_obj = lists()
 
-    usr_list = []
-    usr_sorted = []
-    followers_list = []
-    following_list = []
     is_on = True
 
     name = input(" Enter mail: ")
