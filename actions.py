@@ -12,32 +12,32 @@ def instats_init():
     try:
         os.makedirs("Instats/Config/config.txt")
     except FileExistsError:
-        print("Folder already exists")
+        print(" Folder already exists")
         pass
 
     try:
         os.makedirs("Instats/Instats_Profiles")
     except FileExistsError:
-        print("Folder already exists")
+        print(" Folder already exists")
         pass
 
 def create_profile_folders(browser):
     try:
         os.makedirs("Instats/Instats_Profiles/" + str(get_username(browser)))
     except FileExistsError:
-        print(str(get_username(browser)) + " folder already exists")
+        print(" " + str(get_username(browser)) + " folder already exists")
         pass
 
     try:
         os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/followers.txt"))
     except FileExistsError:
-        print("Followers file already exists")
+        print(" Followers file already exists")
         pass
 
     try:
         os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/following.txt"))
     except FileExistsError:
-        print("Following file already exists")
+        print(" Following file already exists")
         pass
 
 def remove_char(string, char):
@@ -125,6 +125,6 @@ def write_file(path, profile_list):
     f = open(path, "w+")
 
     for profile in profile_list:
-        f.write(profile)
+        f.write(profile + "\n")
 
     f.close()

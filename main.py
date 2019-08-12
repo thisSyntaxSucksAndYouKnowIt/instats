@@ -4,6 +4,7 @@ import getpass
 import time
 from farming import *
 from tui import *
+from structs import *
 
 if __name__ == '__main__':
 
@@ -19,6 +20,7 @@ if __name__ == '__main__':
     driver.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
 
     '''
+    list_obj = lists()
 
     usr_list = []
     usr_sorted = []
@@ -26,8 +28,8 @@ if __name__ == '__main__':
     following_list = []
     is_on = True
 
-    name = input("Enter mail: ")
-    pwd = getpass.getpass("Enter pass: ")
+    name = input(" Enter mail: ")
+    pwd = getpass.getpass(" Enter pass: ")
     #options = webdriver.ChromeOptions()
     #options.add_argument("headless")
 
@@ -47,66 +49,73 @@ if __name__ == '__main__':
 
         clear_screen()
         title_screen()
+        #main_menu(usr_list, usr_sorted, followers_list, following_list)
+        main_menu(list_obj)
 
-        print("Instats temp menu")
-        print("Options:")
-        print("a: farm likers from specific post")
-        print("b: sort users from likers farmed " + str(len(usr_list)))
-        print("c: mass like from likers list " + str(len(usr_sorted)))
-        print("d: farm followers from profile")
-        print("e: farm following from profile")
-        print("q: quit")
-
-        choice = input("Choice: ")
+        choice = input(" Choice: ")
 
         if choice == 'a':
             clear_screen()
             title_screen()
 
-            url = input("Enter url from the post you want to scrape: ")
+            url = input(" Enter url from the post you want to scrape: ")
             driver.get(url)
-            number = input("Enter number of profiles you want to scrape " +str(get_number_of_likers(driver))+" available: ")
+            number = input(" Enter number of profiles you want to scrape " +str(get_number_of_likers(driver))+" available: ")
             number = int(number)
             if number > get_number_of_likers(driver):
                 number = get_number_of_likers(driver)
 
-            usr_list = collect_likers(driver, number)
+            #usr_list = collect_likers(driver, number)
+            list_obj = collect_likers(driver, number, list_obj)
 
 
         if choice == 'b':
-            usr_sorted = sort_profiles(driver, usr_list)
+            list_obj = sort_profiles(driver, list_obj)
 
 
         if choice == 'c':
-            mass_like(driver, usr_sorted, 2)
+            mass_like(driver, list_obj, 2)
 
 
         if choice == 'd':
             clear_screen()
             title_screen()
+            if list_obj.user_name_post != None:
+                choice = input(" Do you want to farm the followers of the user you farmed likers from? yes/no: ")
+                if choice == "yes":
+                    profile = list_obj.user_name_post
+                else:
+                    profile = input(" Which profile you want to collect followers from? ")
 
-            profile = input("Which profile you want to collect followers from? ")
-            driver.get("https://www.instagram.com/" + profile)
-            time.sleep(2)
+                driver.get("https://www.instagram.com/" + profile)
+                time.sleep(2)
 
-            create_profile_folders(driver)
-            followers_list = collect_followers(driver)
+                create_profile_folders(driver)
+                list_obj = collect_followers(driver,list_obj)
 
-            write_file("Instats_Profiles/" + str(profile) + "/followers.txt", followers_list)
+                write_file("Instats/Instats_Profiles/" + str(profile) + "/followers.txt", list_obj.followers_collected)
 
         if choice == 'e':
             clear_screen()
             title_screen()
 
-            profile = input("Which profile you want to collect followings from? ")
-            driver.get("https://www.instagram.com/" + profile)
-            time.sleep(2)
+            if list_obj.user_name_post != None:
+                choice = input(" Do you want to farm the following of the user you farmed likers from? yes/no: ")
+                if choice == "yes":
+                    profile = list_obj.user_name_post
+                else:
+                    profile = input(" Which profile you want to collect followings from? ")
 
-            create_profile_folders(driver)
-            following_list = collect_following(driver)
+                driver.get("https://www.instagram.com/" + profile)
+                time.sleep(2)
 
-            write_file("Instats_Profiles/" + str(profile) + "/following.txt", following_list)
+                create_profile_folders(driver)
+                list_obj = collect_following(driver, list_obj)
+
+                write_file("Instats/Instats_Profiles/" + str(profile) + "/following.txt", list_obj.following_collected)
 
         if choice == 'q':
             driver.close()
+            clear_screen()
+            print(" Goodbye and thank you for chosing Instats to help you grow your account!")
             is_on = False

@@ -16,3 +16,15 @@ def title_screen():
     print("  _| |_| | | \__ \ || (_| | |_\__ \\")
     print(" |_____|_| |_|___/\__\__,_|\__|___/")
     print("")
+
+def main_menu(lists):
+    print("")
+    print(" a: collect likers from specific post")
+    print(" b: sort profiles collected " + str(len(lists.likers_collected)))
+    print(" c: mass like from sorted list " + str(len(lists.likers_collected_clean)))
+    print(" d: collect followers from specific profile")
+    print(" e: collect following from specific profile")
+    print(" number of followers collected from " + str(lists.user_name_followers) + " " + str(len(lists.followers_collected)))
+    print(" number of following collected from " + str(lists.user_name_following) + " " + str(len(lists.following_collected)))
+    print(" q: quit instats")
+    print("")

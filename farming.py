@@ -8,11 +8,10 @@ from actions import *
 import time
 from tui import *
 
-def collect_likers(browser, num_wanted):
-    usr_list = []
+def collect_likers(browser, num_wanted, lists):
+    lists.post_url = browser.current_url
+    lists.user_name_post = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[1]/h2/a"))).text
 
-    #like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/a")))
-    #like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "zV_Nj")))
     like = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/button")))
     like.click()
     like_popup = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@style, 'height: 356px; overflow: hidden auto;')]")))
@@ -31,15 +30,19 @@ def collect_likers(browser, num_wanted):
             except NoSuchElementException:
                 return 0
 
-            if href not in usr_list:
-                usr_list.append(href)
+            if href not in lists.likers_collected:
+                lists.likers_collected.append(href)
 
-                if len(usr_list) == num_wanted:
-                    return usr_list
+                if len(lists.likers_collected) == num_wanted:
+                    return lists
 
         clear_screen()
         title_screen()
-        print("Number of likers collected " + str(len(usr_list)))
+        print("")
+        print(" Collecting from user " + str(lists.user_name_post))
+        print(" Collecting from posts: " + str(lists.post_url))
+        print("")
+        print(" Number of likers collected " + str(len(lists.likers_collected)))
 
         browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", like_popup)
 
@@ -49,41 +52,41 @@ def collect_likers(browser, num_wanted):
         b = browser.execute_script("return arguments[0].scrollHeight;", like_popup)
         c = browser.execute_script("return arguments[0].clientHeight;", like_popup)
 
-    return usr_list
+    return lists
 
-def sort_profiles(browser, usr_list):
-    clean_list = []
-
+def sort_profiles(browser, lists):
     usr_count = 1
 
-    for usr in usr_list:
+    for usr in lists.likers_collected:
         browser.get(usr)
 
         clear_screen()
         title_screen()
-        print("profile " + str(usr_count) + " out of " + str(len(usr_list)))
-        print("clean profile collected: " + str(len(clean_list)))
+        print(" Cleaning lists of user collected from " + str(lists.user_name_post))
+        print(" Collected from posts: " + str(lists.post_url))
+        print("")
+        print(" Profile " + str(usr_count) + " out of " + str(len(lists.likers_collected)))
+        print(" Clean profile collected: " + str(len(lists.likers_collected_clean)))
 
         if is_empty(browser) == False:
-            clean_list.append(usr)
+            lists.likers_collected_clean.append(usr)
 
         usr_count += 1
 
-    return clean_list
+    return lists
 
-def mass_like(browser, usr_list, number_of_likes):
-    #//div[contains(@class, 'Nnq7C weEfm')][replace]/div[replace]/a
+def mass_like(browser, lists, number_of_likes):
 
     row = len(browser.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]"))
     profile_count = 1
     like_count = 0
 
-    for usr in usr_list:
+    for usr in lists.likers_collected_clean:
 
         clear_screen()
         title_screen()
-        print("Profile " + str(profile_count) + " out of " + str(len(usr_list)))
-        print("Like count: " + str(like_count))
+        print(" Profile " + str(profile_count) + " out of " + str(len(lists.likers_collected_clean)))
+        print(" Like count: " + str(like_count))
 
         posts = []
         browser.get(usr)
@@ -106,11 +109,10 @@ def mass_like(browser, usr_list, number_of_likes):
 
         profile_count += 1
 
-def collect_followers(browser):
-    #//li[@class = 'wo9IH'][num]/div/div/div[2]/div/a individual href
-    #//li[@class = 'wo9IH'] number of href
+def collect_followers(browser, lists):
 
-    followers_list = []
+    lists.user_name_followers = get_username(browser)
+    lists.user_url_followers = browser.current_url
     prev_num = 1
 
     followers_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]")))
@@ -132,7 +134,7 @@ def collect_followers(browser):
         number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
 
         for i in range(prev_num, number_availabe):
-            followers_list.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
+            lists.followers_collected.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
 
         a = browser.execute_script("return arguments[0].scrollTop;", followers_popup)
         b = browser.execute_script("return arguments[0].scrollHeight;", followers_popup)
@@ -142,14 +144,18 @@ def collect_followers(browser):
 
         clear_screen()
         title_screen()
-        print("number of followers collected: " + str(len(followers_list)))
-        time.sleep(1)
+        print(" Collecting followers from " + str(lists.user_name_followers))
+        print("")
+        print(" Number of followers collected: " + str(len(lists.followers_collected)))
+        time.sleep(2)
 
-    return followers_list
+    return lists
 
-def collect_following(browser):
-    following_list = []
+def collect_following(browser, lists):
     prev_num = 1
+
+    lists.user_name_following = get_username(browser)
+    lists.user_url_following = browser.current_url
 
     following_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]")))
     following_button.click()
@@ -170,7 +176,7 @@ def collect_following(browser):
         number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
 
         for i in range(prev_num, number_availabe):
-            following_list.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
+            lists.following_collected.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
 
         a = browser.execute_script("return arguments[0].scrollTop;", following_popup)
         b = browser.execute_script("return arguments[0].scrollHeight;", following_popup)
@@ -180,8 +186,10 @@ def collect_following(browser):
 
         clear_screen()
         title_screen()
-        print("number of following collected: " + str(len(following_list)))
-        time.sleep(1)
+        print(" Collecting following from " + str(lists.user_name_following))
+        print("")
+        print(" Number of following collected: " + str(len(lists.following_collected)))
+        time.sleep(2)
 
-    return following_list
+    return lists
 
