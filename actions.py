@@ -8,30 +8,34 @@ import re
 import os
 from realism import *
 
-def instats_init(browser):
+def instats_init():
     try:
-        os.makedirs("Instats_Profiles")
+        os.makedirs("Instats/Config/config.txt")
     except FileExistsError:
         print("Folder already exists")
         pass
 
-    choice = input("Press Enter to continue ...")
+    try:
+        os.makedirs("Instats/Instats_Profiles")
+    except FileExistsError:
+        print("Folder already exists")
+        pass
 
 def create_profile_folders(browser):
     try:
-        os.makedirs("Instats_Profiles/" + str(get_username(browser)))
+        os.makedirs("Instats/Instats_Profiles/" + str(get_username(browser)))
     except FileExistsError:
-        print("Own profile folder already exists")
+        print(str(get_username(browser)) + " folder already exists")
         pass
 
     try:
-        os.mknod("Instats_Profiles/" + str(get_username(browser) + "/followers.txt"))
+        os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/followers.txt"))
     except FileExistsError:
         print("Followers file already exists")
         pass
 
     try:
-        os.mknod("Instats_Profiles/" + str(get_username(browser) + "/following.txt"))
+        os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/following.txt"))
     except FileExistsError:
         print("Following file already exists")
         pass
