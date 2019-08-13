@@ -14,6 +14,11 @@ class lists:
     following_collected = []
     following_collected_clean = []
 
+    user_name_commenters = None
+    user_url_commenters = None
+    commenters_collected = []
+    commenters_collected_clean = []
+
 class sorting_options:
     is_private = None
     is_empty = None
