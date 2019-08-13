@@ -29,3 +29,5 @@ class sorting_options:
     max_following = None
     country = []
     leave_comment = None
+    leave_like = None
+    number_of_like = None
