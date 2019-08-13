@@ -13,3 +13,14 @@ class lists:
     user_url_following = None
     following_collected = []
     following_collected_clean = []
+
+class sorting_options:
+    is_private = None
+    is_empty = None
+    min_age = None
+    max_age = None
+    gender = None
+    max_followers = None
+    max_following = None
+    country = []
+    leave_comment = None
