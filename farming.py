@@ -54,29 +54,53 @@ def collect_likers(browser, num_wanted, lists):
 
     return lists
 
-def sort_profiles(browser, lists):
+def sort_profiles(browser, lists, which_list):
     usr_count = 1
 
-    for usr in lists.likers_collected:
+    to_clean = None
+    what = None
+    user_name = None
+    user_url = None
+    cleaned = None
+
+    if which_list == 1:
+        user_name = lists.user_name_post
+        what = " likers "
+        user_url = lists.post_url
+        to_clean = lists.likers_collected
+        cleaned = lists.likers_collected_clean
+    elif which_list == 2:
+        user_name = lists.user_name_followers
+        what = " followers "
+        user_url = user_url_followers
+        to_clean = lists.followers_collected
+        cleaned = lists.followers_collected_clean
+    elif which_list == 3:
+        what = " following "
+        user_name = lists.user_name_following
+        user_url = user_url_following
+        to_clean = lists.following_collected
+        cleaned = lists.followers_collected_clean
+
+    for usr in to_clean:
         browser.get(usr)
 
         clear_screen()
         title_screen()
-        print(" Cleaning lists of user collected from " + str(lists.user_name_post))
-        print(" Collected from posts: " + str(lists.post_url))
+        print(" Cleaning lists of" + what + "collected from " + str(user_name))
+        print(" Collected from posts: " + str(user_url))
         print("")
-        print(" Profile " + str(usr_count) + " out of " + str(len(lists.likers_collected)))
-        print(" Clean profile collected: " + str(len(lists.likers_collected_clean)))
+        print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
+        print(" Clean profile collected: " + str(len(cleaned)))
 
         if is_empty(browser) == False:
-            lists.likers_collected_clean.append(usr)
+            cleaned.append(usr)
 
         usr_count += 1
 
     return lists
 
 def mass_like(browser, lists, number_of_likes):
-
     row = len(browser.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]"))
     profile_count = 1
     like_count = 0
@@ -101,7 +125,11 @@ def mass_like(browser, lists, number_of_likes):
                         break
 
         for post in posts:
-            print((len(posts)))
+            clear_screen()
+            title_screen()
+            print(" Profile " + str(profile_count) + " out of " + str(len(lists.likers_collected_clean)))
+            print(" Like count: " + str(like_count))
+
             browser.get(post)
             time.sleep(1)
             like_picture(browser)
@@ -110,9 +138,9 @@ def mass_like(browser, lists, number_of_likes):
         profile_count += 1
 
 def collect_followers(browser, lists):
-
     lists.user_name_followers = get_username(browser)
     lists.user_url_followers = browser.current_url
+
     prev_num = 1
 
     followers_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]")))
@@ -152,10 +180,10 @@ def collect_followers(browser, lists):
     return lists
 
 def collect_following(browser, lists):
-    prev_num = 1
-
     lists.user_name_following = get_username(browser)
     lists.user_url_following = browser.current_url
+
+    prev_num = 1
 
     following_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]")))
     following_button.click()
@@ -192,4 +220,3 @@ def collect_following(browser, lists):
         time.sleep(2)
 
     return lists
-
