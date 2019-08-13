@@ -45,7 +45,6 @@ if __name__ == '__main__':
 
         clear_screen()
         title_screen()
-        #main_menu(usr_list, usr_sorted, followers_list, following_list)
         main_menu(list_obj)
 
         choice = input(" Choice: ")
@@ -61,12 +60,11 @@ if __name__ == '__main__':
             if number > get_number_of_likers(driver):
                 number = get_number_of_likers(driver)
 
-            #usr_list = collect_likers(driver, number)
             list_obj = collect_likers(driver, number, list_obj)
 
 
         if choice == 'b':
-            list_obj = sort_profiles(driver, list_obj)
+            list_obj = sort_profiles(driver, list_obj, 1)
 
 
         if choice == 'c':
@@ -76,22 +74,29 @@ if __name__ == '__main__':
         if choice == 'd':
             clear_screen()
             title_screen()
+
             if list_obj.user_name_post != None:
                 choice = input(" Do you want to farm the followers of the user you farmed likers from? yes/no: ")
                 if choice == "yes":
                     profile = list_obj.user_name_post
-                else:
-                    profile = input(" Which profile you want to collect followers from? ")
 
-                driver.get("https://www.instagram.com/" + profile)
-                time.sleep(2)
+            else:
+                profile = input(" Which profile you want to collect followers from? (Enter the username): ")
 
-                create_profile_folders(driver)
-                list_obj = collect_followers(driver,list_obj)
 
-                write_file("Instats/Instats_Profiles/" + str(profile) + "/followers.txt", list_obj.followers_collected)
+            profile = input(" Which profile you want to collect followers from? (Enter the username): ")
+            driver.get("https://www.instagram.com/" + profile)
+            time.sleep(2)
+
+            create_profile_folders(driver)
+            list_obj = collect_followers(driver,list_obj)
+
+            write_file("Instats/Instats_Profiles/" + str(profile) + "/followers.txt", list_obj.followers_collected)
 
         if choice == 'e':
+            list_obj = sort_profiles(browser, list_obj, 2)
+
+        if choice == 'f':
             clear_screen()
             title_screen()
 
@@ -99,16 +104,22 @@ if __name__ == '__main__':
                 choice = input(" Do you want to farm the following of the user you farmed likers from? yes/no: ")
                 if choice == "yes":
                     profile = list_obj.user_name_post
-                else:
-                    profile = input(" Which profile you want to collect followings from? ")
 
-                driver.get("https://www.instagram.com/" + profile)
-                time.sleep(2)
+            else:
+                profile = input(" Which profile you want to collect followings from? (Enter the username): ")
 
-                create_profile_folders(driver)
-                list_obj = collect_following(driver, list_obj)
+            profile = input(" Which profile you want to collect followings from? (Enter the username): ")
+            driver.get("https://www.instagram.com/" + profile)
+            time.sleep(2)
 
-                write_file("Instats/Instats_Profiles/" + str(profile) + "/following.txt", list_obj.following_collected)
+            create_profile_folders(driver)
+            list_obj = collect_following(driver, list_obj)
+
+            write_file("Instats/Instats_Profiles/" + str(profile) + "/following.txt", list_obj.following_collected)
+
+        if choice == 'g':
+            list_obj = sort_profiles(browser, list_obj, 3)
+
 
         if choice == 'q':
             driver.close()
