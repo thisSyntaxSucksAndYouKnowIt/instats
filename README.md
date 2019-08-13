@@ -51,6 +51,7 @@ And you're good to go.
 ## Features
 
 * Farming accounts of people who liked certain posts
+* Farming the followers and following of accounts
 * Farming commenters (Not yet implemented)
 * Sorting your followers and your followings (Not yet implemented)
 * Realistic key presses
