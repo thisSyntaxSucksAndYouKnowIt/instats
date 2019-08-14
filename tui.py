@@ -16,6 +16,10 @@ def title_screen():
     print("  _| |_| | | \__ \ || (_| | |_\__ \\")
     print(" |_____|_| |_|___/\__\__,_|\__|___/")
     print("")
+    print(" Made by: https://github.com/thisSyntaxSucksAndYouKnowIt")
+    print(" Second version, the first was lost when my hard drive broke")
+    print("")
+
 
 def main_menu(lists):
     print("")
