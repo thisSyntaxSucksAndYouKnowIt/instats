@@ -95,6 +95,7 @@ if __name__ == '__main__':
 
         if choice == 'e':
             list_obj = sort_profiles(browser, list_obj, 2)
+            write_file("Instats/Instats_Profiles/" + str(list_obj.user_name_followers) + "/clean_followers.txt", list_obj.followers_collected_clean)
 
         if choice == 'f':
             clear_screen()
@@ -119,7 +120,7 @@ if __name__ == '__main__':
 
         if choice == 'g':
             list_obj = sort_profiles(browser, list_obj, 3)
-
+            write_file("Instats/Instats_Profiles/" + str(list_obj.user_name_following) + "/clean_followers.txt", list_obj.following_collected_clean)
 
         if choice == 'q':
             driver.close()
