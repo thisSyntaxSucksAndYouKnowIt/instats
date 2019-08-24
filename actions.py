@@ -137,21 +137,30 @@ def load_file(path, lists, which_list, clean):
     if which_list == 1:
         if clean == True:
             fill_list = lists.followers_collected_clean
+            lists.user_name_followers = os.path.basename(os.path.dirname(path))
         else:
             fill_list = lists.followers_collected
+            lists.user_name_followers = os.path.basename(os.path.dirname(path))
     elif which_list == 2:
         if clean == True:
-            fill_list = lists.followers_collected_clean
+            fill_list = lists.following_collected_clean
+            lists.user_name_following = os.path.basename(os.path.dirname(path))
         else:
             fill_list = lists.following_collected
+            lists.user_name_following = os.path.basename(os.path.dirname(path))
     elif which_list == 3:
         if clean == True:
             fill_list = lists.commenters_collected_clean
+            lists.user_name_commenters = os.path.basename(os.path.dirname(path))
         else:
             fill_list = lists.commenters_collected
+            lists.user_name_commenters = os.path.basename(os.path.dirname(path))
 
     for profile in f:
-        fill_list.append(profile)
+        if profile in fill_list:
+            pass
+        else:
+            fill_list.append(profile)
 
     f.close()
     return lists
