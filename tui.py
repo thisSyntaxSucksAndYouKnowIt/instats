@@ -30,5 +30,7 @@ def main_menu(lists):
     print(" e: sort " + str(len(lists.followers_collected)) + " followers collected from: " + str(lists.user_name_followers))
     print(" f: collect following from specific profile")
     print(" g: sort " + str(len(lists.following_collected)) + " followers collected from: " + str(lists.user_name_following))
+    print(" h: fill followers list with own followers")
+    print(" i: fill following list with own following")
     print(" q: quit instats")
     print("")
