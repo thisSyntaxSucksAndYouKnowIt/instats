@@ -128,3 +128,30 @@ def write_file(path, profile_list):
         f.write(profile + "\n")
 
     f.close()
+
+def load_file(path, lists, which_list, clean):
+    f = open(path, "r")
+
+    fill_list = None
+
+    if which_list == 1:
+        if clean == True:
+            fill_list = lists.followers_collected_clean
+        else:
+            fill_list = lists.followers_collected
+    elif which_list == 2:
+        if clean == True:
+            fill_list = lists.followers_collected_clean
+        else:
+            fill_list = lists.following_collected
+    elif which_list == 3:
+        if clean == True:
+            fill_list = lists.commenters_collected_clean
+        else:
+            fill_list = lists.commenters_collected
+
+    for profile in f:
+        fill_list.append(profile)
+
+    f.close()
+    return lists
