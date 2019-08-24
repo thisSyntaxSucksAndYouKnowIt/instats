@@ -122,6 +122,12 @@ if __name__ == '__main__':
             list_obj = sort_profiles(browser, list_obj, 3)
             write_file("Instats/Instats_Profiles/" + str(list_obj.user_name_following) + "/clean_followers.txt", list_obj.following_collected_clean)
 
+        if choice == 'h':
+            list_obj = load_file("Instats/Instats_Profiles/fancyfashinsta/followers.txt",list_obj, 1, False)
+
+        if choice == 'i':
+            list_obj = load_file("Instats/Instats_Profiles/fancyfashinsta/following.txt",list_obj, 1, False)
+
         if choice == 'q':
             driver.close()
             clear_screen()
