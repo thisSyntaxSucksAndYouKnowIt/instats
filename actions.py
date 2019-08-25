@@ -122,12 +122,11 @@ def comment_post():
     pass
 
 def write_file(path, profile_list):
-    f = open(path, "w+")
+    f = open(path, "r+")
 
     for profile in profile_list:
-        f.write(profile + "\n")
-
-    f.close()
+        if profile not in f.read():
+            f.write(profile + '\n')
 
 def load_file(path, lists, which_list, clean):
     f = open(path, "r")
