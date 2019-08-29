@@ -174,7 +174,9 @@ def collect_followers(browser, lists):
         number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
 
         for i in range(prev_num, number_availabe):
-            lists.followers_collected.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
+            profile = browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href")
+            if profile not in lists.followers_collected:
+                lists.followers_collected.append(profile)
 
         a = browser.execute_script("return arguments[0].scrollTop;", followers_popup)
         b = browser.execute_script("return arguments[0].scrollHeight;", followers_popup)
@@ -222,7 +224,9 @@ def collect_following(browser, lists):
         number_availabe = len(browser.find_elements_by_xpath("//li[@class = 'wo9IH']"))
 
         for i in range(prev_num, number_availabe):
-            lists.following_collected.append(browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href"))
+            profile = browser.find_element_by_xpath("//li[@class = 'wo9IH']["+str(i)+"]/div/div/div[2]/div/a").get_attribute("href")
+            if profile not in lists.following_collected:
+                lists.following_collected.append(profile)
 
         a = browser.execute_script("return arguments[0].scrollTop;", following_popup)
         b = browser.execute_script("return arguments[0].scrollHeight;", following_popup)
