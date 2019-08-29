@@ -81,6 +81,12 @@ def sort_profiles(browser, lists, which_list):
         user_url = user_url_following
         to_clean = lists.following_collected
         cleaned = lists.followers_collected_clean
+    elif which_list == 4:
+        what = " commenters "
+        user_name = lists.user_name_commenters
+        user_url = user_url_commenters
+        to_clean = lists.commenters_collected
+        cleaned = lists.commenters_collected_clean
 
     for usr in to_clean:
         browser.get(usr)
@@ -141,6 +147,12 @@ def collect_followers(browser, lists):
     lists.user_name_followers = get_username(browser)
     lists.user_url_followers = browser.current_url
 
+    clear_screen()
+    title_screen()
+    print(" Collecting followers from " + str(lists.user_name_followers))
+    print("")
+    print(" Number of followers collected: " + str(len(lists.followers_collected)))
+
     prev_num = 1
 
     followers_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]")))
@@ -183,6 +195,12 @@ def collect_following(browser, lists):
     lists.user_name_following = get_username(browser)
     lists.user_url_following = browser.current_url
 
+    clear_screen()
+    title_screen()
+    print(" Collecting following from " + str(lists.user_name_following))
+    print("")
+    print(" Number of following collected: " + str(len(lists.following_collected)))
+
     prev_num = 1
 
     following_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]")))
@@ -218,5 +236,12 @@ def collect_following(browser, lists):
         print("")
         print(" Number of following collected: " + str(len(lists.following_collected)))
         time.sleep(2)
+
+    return lists
+
+def find_non_followback(lists):
+    for user in lists.following_collected:
+        if user not in lists.followers_collected:
+            lists.non_follow_back.append(user)
 
     return lists
