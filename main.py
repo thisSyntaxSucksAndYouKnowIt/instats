@@ -18,8 +18,8 @@ if __name__ == '__main__':
     options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
     driver.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
-
     '''
+
     list_obj = lists()
 
     is_on = True
@@ -62,18 +62,17 @@ if __name__ == '__main__':
 
             list_obj = collect_likers(driver, number, list_obj)
 
-
         if choice == 'b':
             list_obj = sort_profiles(driver, list_obj, 1)
-
 
         if choice == 'c':
             mass_like(driver, list_obj, 2)
 
-
         if choice == 'd':
             clear_screen()
             title_screen()
+
+            profile = None
 
             if list_obj.user_name_post != None:
                 choice = input(" Do you want to farm the followers of the user you farmed likers from? yes/no: ")
@@ -83,8 +82,6 @@ if __name__ == '__main__':
             else:
                 profile = input(" Which profile you want to collect followers from? (Enter the username): ")
 
-
-            profile = input(" Which profile you want to collect followers from? (Enter the username): ")
             driver.get("https://www.instagram.com/" + profile)
             time.sleep(2)
 
@@ -101,6 +98,8 @@ if __name__ == '__main__':
             clear_screen()
             title_screen()
 
+            profile = None
+
             if list_obj.user_name_post != None:
                 choice = input(" Do you want to farm the following of the user you farmed likers from? yes/no: ")
                 if choice == "yes":
@@ -109,7 +108,6 @@ if __name__ == '__main__':
             else:
                 profile = input(" Which profile you want to collect followings from? (Enter the username): ")
 
-            profile = input(" Which profile you want to collect followings from? (Enter the username): ")
             driver.get("https://www.instagram.com/" + profile)
             time.sleep(2)
 
@@ -127,6 +125,13 @@ if __name__ == '__main__':
 
         if choice == 'i':
             list_obj = load_file("Instats/Instats_Profiles/fancyfashinsta/following.txt",list_obj, 2, False)
+
+        if choice == 'j':
+            list_obj = load_file("Instats/Instats_Profiles/fancyfashinsta/followers.txt",list_obj, 1, False)
+            list_obj = load_file("Instats/Instats_Profiles/fancyfashinsta/following.txt",list_obj, 2, False)
+            list_obj = find_non_followback(list_obj)
+
+            write_file("Instats/Instats_Profiles/fancyfashinsta/followers.txt", list_obj.non_follow_back)
 
         if choice == 'q':
             driver.close()
