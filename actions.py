@@ -40,6 +40,24 @@ def create_profile_folders(browser):
         print(" Following file already exists")
         pass
 
+    try:
+        os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/followers_clean.txt"))
+    except FileExistsError:
+        print(" Followers clean file already exists")
+        pass
+
+    try:
+        os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/following_clean.txt"))
+    except FileExistsError:
+        print(" Following clean file already exists")
+        pass
+
+    try:
+        os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/non_followback.txt"))
+    except FileExistsError:
+        print(" Non followback file already exists")
+        pass
+
 def remove_char(string, char):
     return re.sub(char,'', string)
 
@@ -121,12 +139,26 @@ def comment_post():
     #//button[@type = 'submit']
     pass
 
+def check(path, profile):
+    with open(path) as f:
+        datafile = f.readlines()
+    found = False  # This isn't really necessary
+    for line in datafile:
+        if profile in line:
+            # found = True # Not necessary
+            return True
+    return False
+
 def write_file(path, profile_list):
-    f = open(path, "r+")
+    f = open(path, "a+")
 
     for profile in profile_list:
-        if profile not in f.read():
-            f.write(profile + '\n')
+        if check(path, profile) == False:
+            if '\n' in profile:
+                f.write(profile)
+            else:
+                f.write(profile + '\n')
+    f.close()
 
 def load_file(path, lists, which_list, clean):
     f = open(path, "r")
