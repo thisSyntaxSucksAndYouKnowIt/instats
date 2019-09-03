@@ -64,6 +64,7 @@ if __name__ == '__main__':
 
         if choice == 'b':
             list_obj = sort_profiles(driver, list_obj, 1)
+            write_file("Instats/Instats_Profiles/unavailable.txt", list_obj.unavailable)
 
         if choice == 'c':
             mass_like(driver, list_obj, 2)
@@ -93,6 +94,7 @@ if __name__ == '__main__':
         if choice == 'e':
             list_obj = sort_profiles(browser, list_obj, 2)
             write_file("Instats/Instats_Profiles/" + str(list_obj.user_name_followers) + "/clean_followers.txt", list_obj.followers_collected_clean)
+            write_file("Instats/Instats_Profiles/unavailable.txt", list_obj.unavailable)
 
         if choice == 'f':
             clear_screen()
@@ -119,6 +121,7 @@ if __name__ == '__main__':
         if choice == 'g':
             list_obj = sort_profiles(browser, list_obj, 3)
             write_file("Instats/Instats_Profiles/" + str(list_obj.user_name_following) + "/clean_following.txt", list_obj.following_collected_clean)
+            write_file("Instats/Instats_Profiles/unavailable.txt", list_obj.unavailable)
 
         if choice == 'h':
             list_obj = load_file("Instats/Instats_Profiles/fancyfashinsta/followers.txt",list_obj, 1, False)
