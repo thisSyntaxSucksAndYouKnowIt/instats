@@ -101,6 +101,8 @@ def sort_profiles(browser, lists, which_list):
 
         if is_empty(browser) == False:
             cleaned.append(usr)
+        else:
+            unavailable.append(usr)
 
         usr_count += 1
 
