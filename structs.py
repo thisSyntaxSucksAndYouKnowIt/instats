@@ -19,6 +19,9 @@ class lists:
     commenters_collected = []
     commenters_collected_clean = []
 
+    non_follow_back = []
+    unavailable = []
+
 class sorting_options:
     is_private = None
     is_empty = None
@@ -31,3 +34,9 @@ class sorting_options:
     leave_comment = None
     leave_like = None
     number_of_like = None
+
+class user:
+    name = None
+    url = None
+    followers = None
+    following = None
