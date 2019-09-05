@@ -58,6 +58,12 @@ def create_profile_folders(browser):
         print(" Non followback file already exists")
         pass
 
+    try:
+        os.mknod("Instats/Instats_Profiles/unavailable.txt")
+    except FileExistsError:
+        print(" Unavailable file already exists")
+        pass
+
 def remove_char(string, char):
     return re.sub(char,'', string)
 
@@ -195,3 +201,14 @@ def load_file(path, lists, which_list, clean):
 
     f.close()
     return lists
+
+def list_profile_folders():
+    folders = []
+    path = "Instats/Instats_Profiles"
+    dirs = os.listdir(path)
+
+    for f in dirs:
+        folders.append(f)
+
+    folders = sorted(folders)
+    return folders
