@@ -93,7 +93,7 @@ def sort_profiles(browser, lists, which_list):
         browser.get(usr)
         wait_sec = timing_act(15,30)
 
-        for x in reversed(range(0, wait_sec)):
+        while wait_sec != 0:
             clear_screen()
             title_screen()
             print(" Cleaning lists of" + what + "collected from " + str(user_name))
@@ -102,6 +102,8 @@ def sort_profiles(browser, lists, which_list):
             print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
             print(" Clean profile collected: " + str(len(cleaned)))
             print(" " + str(x) + " seconds until next action")
+
+            wait_sec -=1
 
         if is_empty(browser) == False:
             cleaned.append(usr)
@@ -126,15 +128,15 @@ def mass_like(browser, lists, number_of_likes):
 
         posts = []
         browser.get(usr)
-        for r in (1, row):
-            for c in (1, 3):
-                if len(posts) == number_of_likes:
+        for r in range(1, row):
+            for c in range(1, 3):
+                try:
+                    link = browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href")
+                    if len(posts) < 2:
+                        if link not in posts:
+                            posts.append(link)
+                except NoSuchElementException:
                     break
-                else:
-                    try:
-                        posts.append(browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href"))
-                    except NoSuchElementException:
-                        break
 
         for post in posts:
             clear_screen()
@@ -257,6 +259,7 @@ def find_non_followback(lists):
 
 def sort_and_like(browser, lists, which_list, number_of_likes):
     usr_count = 1
+    like_count = 0
 
     to_clean = None
     what = None
@@ -293,7 +296,7 @@ def sort_and_like(browser, lists, which_list, number_of_likes):
         browser.get(usr)
         wait_sec = timing_act(15,30)
 
-        for x in reversed(range(0, wait_sec)):
+        while wait_sec != 0:
             clear_screen()
             title_screen()
             print(" Cleaning lists of" + what + "collected from " + str(user_name))
@@ -301,19 +304,34 @@ def sort_and_like(browser, lists, which_list, number_of_likes):
             print("")
             print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
             print(" Clean profile collected: " + str(len(cleaned)))
-            print(" " + str(x) + " seconds until next action")
+            print(" " + str(wait_sec) + " seconds until next action")
             print(" Like count: " + str(like_count))
+
+            time.sleep(1)
+            wait_sec -= 1
 
         if is_empty(browser) == False:
             cleaned.append(usr)
             row = len(browser.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]"))
             profile_count = 1
-            like_count = 0
 
-            for usr in lists.likers_collected_clean:
+            posts = []
+            for r in range(1, row):
+                for c in range(1, 3):
+                    try:
+                        link = browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href")
+                        if len(posts) < 2:
+                            if link not in posts:
+                                posts.append(link)
+                    except NoSuchElementException:
+                        break
+
+            for post in posts:
                 wait_sec = timing_act(3,8)
 
-                for x in reversed(range(0, wait_sec)):
+                browser.get(post)
+
+                while wait_sec != 0:
                     clear_screen()
                     title_screen()
                     print(" Cleaning lists of" + what + "collected from " + str(user_name))
@@ -321,29 +339,17 @@ def sort_and_like(browser, lists, which_list, number_of_likes):
                     print("")
                     print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
                     print(" Clean profile collected: " + str(len(cleaned)))
-                    print(" " + str(x) + " seconds until next action")
+                    print(" " + str(wait_sec) + " seconds until next action")
                     print(" Like count: " + str(like_count))
+                    print(" Post collected: " + str(len(posts)))
 
-                posts = []
-                browser.get(usr)
-                for r in (1, row):
-                    for c in (1, 3):
-                        if len(posts) == number_of_likes:
-                            break
-                        else:
-                            try:
-                                posts.append(browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href"))
-                            except NoSuchElementException:
-                                break
+                    time.sleep(1)
+                    wait_sec -= 1
 
-                for post in posts:
-                    print(" Like count: " + str(like_count))
+                like_picture(browser)
+                like_count += 1
 
-                    browser.get(post)
-                    like_picture(browser)
-                    like_count += 1
-
-                profile_count += 1
+            profile_count += 1
         else:
             lists.unavailable.append(usr)
 
