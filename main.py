@@ -136,6 +136,21 @@ if __name__ == '__main__':
 
             write_file("Instats/Instats_Profiles/fancyfashinsta/followers.txt", list_obj.non_follow_back)
 
+        if choice == 'k':
+            clear_screen()
+            title_screen()
+
+            url = input(" Enter url from the post you want to scrape: ")
+            driver.get(url)
+            number = input(" Enter number of profiles you want to scrape " +str(get_number_of_likers(driver))+" available: ")
+            number = int(number)
+            if number > get_number_of_likers(driver):
+                number = get_number_of_likers(driver)
+
+            number_of_likes = input(" Enter number of likes you want to leave on profile: ")
+
+            list_obj = sort_and_like(driver, list_obj, 1, number_of_likes)
+
         if choice == 'q':
             driver.close()
             clear_screen()
