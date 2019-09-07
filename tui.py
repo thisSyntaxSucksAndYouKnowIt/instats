@@ -20,7 +20,6 @@ def title_screen():
     print(" Second version, the first was lost when my hard drive broke")
     print("")
 
-
 def main_menu(lists):
     print("")
     print(" a: collect likers from specific post")
@@ -32,5 +31,8 @@ def main_menu(lists):
     print(" g: sort " + str(len(lists.following_collected)) + " following collected from: " + str(lists.user_name_following))
     print(" h: fill followers list with own followers")
     print(" i: fill following list with own following")
+    print(" j: find following who didn't follow back")
+    print(" k: sort and like collected likers from " + str(lists.user_name_post))
+    print(" Non followback " + str(len(lists.non_follow_back)))
     print(" q: quit instats")
     print("")
