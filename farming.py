@@ -101,8 +101,9 @@ def sort_profiles(browser, lists, which_list):
             print("")
             print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
             print(" Clean profile collected: " + str(len(cleaned)))
-            print(" " + str(x) + " seconds until next action")
+            print(" " + str(wait_sec) + " seconds until next action")
 
+            time.sleep(1)
             wait_sec -=1
 
         if is_empty(browser) == False:
