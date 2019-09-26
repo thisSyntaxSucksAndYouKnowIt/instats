@@ -13,7 +13,7 @@ def is_empty(browser):
     return False
 
 def is_float(string):
-    var = remove_char(string, ',')
+    var = re.sub(',','', string)
     return int(var)
 
 def is_already_liked(browser):

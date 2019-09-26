@@ -71,9 +71,6 @@ def create_profile_folders(browser):
         print(" Non followback file already exists")
         pass
 
-def remove_char(string, char):
-    return re.sub(char,'', string)
-
 def login_insta(browser, email, password):
     login_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
     realistic_typing(login_box, email)
