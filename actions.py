@@ -7,10 +7,17 @@ from selenium.common.exceptions import TimeoutException
 import re
 import os
 from realism import *
+from checks import *
 
 def instats_init():
     try:
-        os.makedirs("Instats/Config/config.txt")
+        os.makedirs("Instats/Config/")
+    except FileExistsError:
+        print(" Folder already exists")
+        pass
+
+    try:
+        os.mknod("Instats/Config/config.txt")
     except FileExistsError:
         print(" Folder already exists")
         pass
@@ -19,6 +26,12 @@ def instats_init():
         os.makedirs("Instats/Instats_Profiles")
     except FileExistsError:
         print(" Folder already exists")
+        pass
+
+    try:
+        os.mknod("Instats/Instats_Profiles/unavailable.txt")
+    except FileExistsError:
+        print(" Unavailable file already exists")
         pass
 
 def create_profile_folders(browser):
@@ -56,12 +69,6 @@ def create_profile_folders(browser):
         os.mknod("Instats/Instats_Profiles/" + str(get_username(browser) + "/non_followback.txt"))
     except FileExistsError:
         print(" Non followback file already exists")
-        pass
-
-    try:
-        os.mknod("Instats/Instats_Profiles/unavailable.txt")
-    except FileExistsError:
-        print(" Unavailable file already exists")
         pass
 
 def remove_char(string, char):
@@ -111,19 +118,6 @@ def get_number_of_likers(browser):
     num_likers = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/button/span"))).text
     return is_float(num_likers)
 
-def is_float(string):
-    var = remove_char(string, ',')
-    return int(var)
-
-def is_empty(browser):
-    #//div[@class = 'v1Nh3 kIKUG _bz0w']
-    try:
-        WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'v1Nh3')]")))
-    except TimeoutException:
-        return True
-
-    return False
-
 def like_picture(browser):
     #//span[@aria-label = 'Like']
     try:
@@ -145,21 +139,11 @@ def comment_post():
     #//button[@type = 'submit']
     pass
 
-def check(path, profile):
-    with open(path) as f:
-        datafile = f.readlines()
-    found = False  # This isn't really necessary
-    for line in datafile:
-        if profile in line:
-            # found = True # Not necessary
-            return True
-    return False
-
 def write_file(path, profile_list):
     f = open(path, "a+")
 
     for profile in profile_list:
-        if check(path, profile) == False:
+        if is_already_in(path, profile) == False:
             if '\n' in profile:
                 f.write(profile)
             else:
