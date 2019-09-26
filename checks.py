@@ -52,3 +52,12 @@ def is_in_unavailable(profile):
         if profile in line:
             return True
     return False
+
+def is_already_in(path, profile):
+    with open(path) as f:
+        unavailable = f.readlines()
+
+    for line in unavailable:
+        if profile in line:
+            return True
+    return False
