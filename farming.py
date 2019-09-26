@@ -109,7 +109,7 @@ def sort_profiles(browser, lists, which_list):
         if is_empty(browser) == False:
             cleaned.append(usr)
         else:
-            if(is_already_in("Instats/Instats_Profiles/unavailable.txt", usr):
+            if(is_already_in("Instats/Instats_Profiles/unavailable.txt", usr)):
                 lists.unavailable.append(usr)
 
         usr_count += 1
@@ -356,7 +356,7 @@ def sort_and_like(browser, lists, which_list, number_of_likes):
 
             profile_count += 1
         else:
-            if(is_already_in("Instats/Instats_Profiles/unavailable.txt", usr):
+            if(is_already_in("Instats/Instats_Profiles/unavailable.txt", usr)):
                 lists.unavailable.append(usr)
 
         usr_count += 1
