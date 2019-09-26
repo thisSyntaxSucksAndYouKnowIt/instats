@@ -52,8 +52,8 @@ And you're good to go.
 
 * Farming and sorting the accounts of people who liked certain posts
 * Farming and sorting the followers and following of specific accounts
+* Farming and sorting your followers and your followings
 * Farming commenters (Not yet implemented)
-* Sorting your followers and your followings
 * Realistic key presses
 
 It also has its flaws. Since it's dependent on the website, it's also dependent on your internet connection. When scraping likers, followers and followings, if the website doesn't feel like loading more, you will end up with a number of accounts scrapped much lower than expected, so you might have to restart the scraping a couple of times before you get what you need. Once the bot collect what it needs, it's all good.
