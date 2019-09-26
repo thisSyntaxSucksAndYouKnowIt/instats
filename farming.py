@@ -295,7 +295,10 @@ def sort_and_like(browser, lists, which_list, number_of_likes):
 
     for usr in to_clean:
         browser.get(usr)
-        wait_sec = timing_act(15,30)
+        if(is_spam_prevention(browser) == True):
+            break
+
+        wait_sec = timing_act(10,25)
 
         while wait_sec != 0:
             clear_screen()
