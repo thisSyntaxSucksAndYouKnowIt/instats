@@ -44,15 +44,6 @@ def is_password_wrong(browser):
         return False
     return False
 
-def is_in_unavailable(profile):
-    with open("Instats_Profiles/unavailable.txt") as f:
-        unavailable = f.readlines()
-
-    for line in unavailable:
-        if profile in line:
-            return True
-    return False
-
 def is_already_in(path, profile):
     with open(path) as f:
         unavailable = f.readlines()
