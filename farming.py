@@ -7,6 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from actions import *
 from realism import *
 import time
+import datetime
 from tui import *
 
 def collect_likers(browser, num_wanted, lists):
@@ -356,9 +357,151 @@ def sort_and_like(browser, lists, which_list, number_of_likes):
 
             profile_count += 1
         else:
-            if(is_already_in("Instats/Instats_Profiles/unavailable.txt", usr)):
+            if(is_already_in("Instats/Instats_Profiles/unavailable.txt", usr) == False):
                 lists.unavailable.append(usr)
 
+                wait_sec = timing_act(3,8)
+
+                browser.get(post)
+
+            while wait_sec != 0:
+                clear_screen()
+                title_screen()
+                print(" Cleaning lists of" + what + "collected from " + str(user_name))
+                print(" Collected from posts: " + str(user_url))
+                print("")
+                print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
+                print(" Clean profile collected: " + str(len(cleaned)))
+                print(" " + str(wait_sec) + " seconds until next action")
+                print(" Like count: " + str(like_count))
+                print(" Post collected: " + str(len(posts)))
+
+                time.sleep(1)
+                wait_sec -= 1
+
         usr_count += 1
+
+    return lists
+
+def farm_likers(browser, lists, which_list, number_of_likes, actions_per_hour):
+    usr_count = 1
+    like_count = 0
+
+    actions = 0
+
+    to_clean = None
+    what = None
+    user_name = None
+    user_url = None
+    cleaned = None
+
+    if which_list == 1:
+        user_name = lists.user_name_post
+        what = " likers "
+        user_url = lists.post_url
+        to_clean = lists.likers_collected
+        cleaned = lists.likers_collected_clean
+    elif which_list == 2:
+        user_name = lists.user_name_followers
+        what = " followers "
+        user_url = user_url_followers
+        to_clean = lists.followers_collected
+        cleaned = lists.followers_collected_clean
+    elif which_list == 3:
+        what = " following "
+        user_name = lists.user_name_following
+        user_url = user_url_following
+        to_clean = lists.following_collected
+        cleaned = lists.followers_collected_clean
+    elif which_list == 4:
+        what = " commenters "
+        user_name = lists.user_name_commenters
+        user_url = user_url_commenters
+        to_clean = lists.commenters_collected
+        cleaned = lists.commenters_collected_clean
+
+    for usr in to_clean:
+        browser.get(usr)
+        if(is_spam_prevention(browser) == True):
+            break
+
+        wait_sec = timing_act(2,5)
+
+        while wait_sec != 0:
+            clear_screen()
+            title_screen()
+            print(" Cleaning lists of" + what + "collected from " + str(user_name))
+            print(" Collected from posts: " + str(user_url))
+            print("")
+            print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
+            print(" Clean profile collected: " + str(len(cleaned)))
+            print(" " + str(wait_sec) + " seconds until next action")
+            print(" Like count: " + str(like_count))
+
+            time.sleep(1)
+            wait_sec -= 1
+
+        if is_empty(browser) == False:
+            cleaned.append(usr)
+            row = len(browser.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]"))
+            profile_count = 1
+
+            num_of_scroll = random.randrange(2,4)
+            nos = 0
+
+            while nos != num_of_scroll:
+                scroll_down(browser)
+                time.sleep(timing_act(1,2))
+
+            for r in range(1, row):
+                for c in range(1, 3):
+                    try:
+                        post = browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(r)+"]/div["+str(c)+"]/a").get_attribute("href")
+                        post.click()
+                    except NoSuchElementException:
+                        break
+
+                    like_picture(browser)
+                    close_post(browser)
+
+        elif actions == actions_per_hour:
+            wait_sec = 3600
+            while wait_sec != 0:
+                clear_screen()
+                title_screen()
+                print(" Cleaning lists of" + what + "collected from " + str(user_name))
+                print(" Collected from posts: " + str(user_url))
+                print("")
+                print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
+                print(" Clean profile collected: " + str(len(cleaned)))
+                print(" " + str(datetime.timedelta(seconds = wait_sec)) + " seconds until next action")
+                print(" Like count: " + str(like_count))
+                print(" Post collected: " + str(len(posts)))
+
+                time.sleep(1)
+                wait_sec -= 1
+
+            actions = 0
+
+        else:
+            if(is_already_in("Instats/Instats_Profiles/unavailable.txt", usr) == False):
+                lists.unavailable.append(usr)
+
+                wait_sec = timing_act(1,2)
+
+                while wait_sec != 0:
+                    clear_screen()
+                    title_screen()
+                    print(" Cleaning lists of" + what + "collected from " + str(user_name))
+                    print(" Collected from posts: " + str(user_url))
+                    print("")
+                    print(" Profile " + str(usr_count) + " out of " + str(len(to_clean)))
+                    print(" Clean profile collected: " + str(len(cleaned)))
+                    print(" " + str(wait_sec) + " seconds until next action")
+                    print(" Like count: " + str(like_count))
+                    print(" Post collected: " + str(len(posts)))
+
+                    time.sleep(1)
+                    wait_sec -= 1
 
     return lists
