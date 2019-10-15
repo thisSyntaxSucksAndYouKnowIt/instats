@@ -6,6 +6,8 @@ from farming import *
 from tui import *
 from structs import *
 
+#test
+
 if __name__ == '__main__':
 
     instats_init()
