@@ -1,0 +1,2 @@
+class LikeError(Exception):
+    pass
