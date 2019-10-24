@@ -48,3 +48,7 @@ class Browser(webdriver.Firefox, webdriver.Chrome):
             chr_options.add_argument('--proxy-server=%s' % self.proxy)
 
         webdriver.Chrome.__init__(self, chrome_options = chr_options)
+
+    def restart_browser(self):
+        self.close()
+        #include change options then restart a new browser

@@ -8,47 +8,47 @@ class Actions():
     def __init__(self):
         pass
 
-    def get_username(self, browser):
-        username = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'nZSzR']/h1"))).text
+    def get_username(self):
+        username = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'nZSzR']/h1"))).text
         return username
 
-    def get_profile(self, browser, profile):
-        browser.get("https://www.instagram.com/" + profile)
+    def get_profile(self, profile):
+        self.browser.get("https://www.instagram.com/" + profile)
 
-    def get_postcount(self, browser):
-        post_count = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
+    def get_postcount(self):
+        post_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
 
-    def get_post_url(self, browser, row, col):
-        url = browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(row)+"]/div["+str(col)+"]/a")
+    def get_post_url(self, row, col):
+        url = self.browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(row)+"]/div["+str(col)+"]/a")
         return url.get_attribute("href")
 
-    def like_picture(self, browser):
+    def like_picture(self):
         try:
-            like = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Like']")))
+            like = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Like']")))
             like.click()
         except TimeoutException:
             pass
 
-    def dislike_picture(self, browser):
+    def dislike_picture(self):
         try:
-            Unlike = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
+            Unlike = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
             like.click()
         except TimeoutException:
             pass
 
-    def follow_user(self, browser):
+    def follow_user(self):
         try:
-            follow = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Follow')]")))
+            follow = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Follow')]")))
             follow.click()
         except TimeoutException:
             pass
 
-    def unfollow_user(self, browser):
+    def unfollow_user(self):
         try:
-            following = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Following')]")))
+            following = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Following')]")))
             following.click()
 
-            unfollow = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Unfollow')]")))
+            unfollow = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Unfollow')]")))
             unfollow.click()
         except TimeoutException:
             pass
