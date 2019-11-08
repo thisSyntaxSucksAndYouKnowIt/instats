@@ -97,7 +97,10 @@ class Profile(Farming, FileHandling, Browser, UserStats):
     def login_instagram(self):
         self.browser.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
         login_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
+        login_box.send_keys(self.email)
 
         pwd_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'password']")))
+        pwd_box.send_keys(self.password)
 
         login_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//button[@type = 'submit']")))
+        login_button.click

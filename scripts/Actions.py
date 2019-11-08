@@ -20,6 +20,18 @@ class Actions(Checks):
         post_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
         return self.is_float(string)
 
+    def get_bio(self):
+        bio = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//section/div[2]/span"))).text
+        return bio
+
+    def get_followers_count(self):
+        follower_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/a/span"))).get_attribute("title")
+        return is_float(follower_count)
+
+    def get_following_count(self):
+        following_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
+        return is_float(following_count)
+
     def get_post_url(self, row, col):
         url = self.browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(row)+"]/div["+str(col)+"]/a")
         return url.get_attribute("href")
