@@ -3,8 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from Checks import Checks
 
-class Actions():
+class Actions(Checks):
     def __init__(self):
         pass
 
@@ -17,6 +18,7 @@ class Actions():
 
     def get_postcount(self):
         post_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
+        return self.is_float(string)
 
     def get_post_url(self, row, col):
         url = self.browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(row)+"]/div["+str(col)+"]/a")
@@ -31,8 +33,8 @@ class Actions():
 
     def dislike_picture(self):
         try:
-            Unlike = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
-            like.click()
+            dislike = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
+            dislike.click()
         except TimeoutException:
             pass
 
