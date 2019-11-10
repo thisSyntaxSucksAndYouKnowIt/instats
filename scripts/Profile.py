@@ -38,14 +38,16 @@ class Profile(Farming, FileHandling, Browser, UserStats):
         self.private_list               = []
 
         #Farming options
-        self.min_followers    = None
-        self.max_followers    = None
-        self.min_following    = None
-        self.max_following    = None
-        self.num_post         = None
-        self.is_private       = None
-        self.is_empty         = None
-        self.actions_per_hour = None
+        self.min_followers     = None
+        self.max_followers     = None
+        self.min_following     = None
+        self.max_following     = None
+        self.num_post          = None
+        self.follow_if_private = None
+        self.follow_if_empty   = None
+        self.follow_user       = None
+        self.actions_per_hour  = None
+        self.number_of_likes   = None
 
     def initialize_profile(self):
         choice = input("Load an already existing profile? [YES/NO]: ")
