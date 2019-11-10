@@ -31,8 +31,8 @@ class FileHandling():
         tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) + "/browser_options.xml")
         root = tree.getroot()
 
-        self.browser_name    = root.find("browser_name").text
-        self.proxy           = root.find("proxy").text
+        self.browser_name = root.find("browser_name").text
+        self.proxy        = root.find("proxy").text
 
         if root.find("headless").text == "None" or "False":
             self.headless = False
@@ -61,22 +61,26 @@ class FileHandling():
     def write_farming_options(self):
         root = ET.Element("farming_options")
 
-        min_followers         = ET.SubElement(root, "min_followers")
-        min_followers.text    = self.min_followers
-        max_followers         = ET.SubElement(root, "max_followers")
-        max_followers.text    = self.max_followers
-        min_following         = ET.SubElement(root, "min_following")
-        min_following.text    = self.min_following
-        max_following         = ET.SubElement(root, "max_following")
-        max_following.text    = self.max_following
-        num_posts             = ET.SubElement(root, "num_post")
-        num_posts.text        = self.num_post
-        is_private            = ET.SubElement(root, "is_private")
-        is_private.text       = str(self.is_private)
-        is_empty              = ET.SubElement(root, "is_empty")
-        is_empty.text         = str(self.is_empty)
-        actions_per_hour      = ET.SubElement(root, "actions_per_hour")
-        actions_per_hour.text = str(self.actions_per_hour)
+        min_followers                = ET.SubElement(root, "min_followers")
+        min_followers.text           = self.min_followers
+        max_followers                = ET.SubElement(root, "max_followers")
+        max_followers.text           = self.max_followers
+        min_following                = ET.SubElement(root, "min_following")
+        min_following.text           = self.min_following
+        max_following                = ET.SubElement(root, "max_following")
+        max_following.text           = self.max_following
+        num_posts                    = ET.SubElement(root, "num_post")
+        num_posts.text               = self.num_post
+        follow_if_private            = ET.SubElement(root, "follow_if_private")
+        follow_if_private.text       = str(self.follow_if_private)
+        follow_if_empty              = ET.SubElement(root, "follow_if_empty")
+        follow_if_empty.text         = str(self.follow_if_empty)
+        follow_user                  = ET.SubElement(root, "follow_user")
+        follow_user.text             = str(self.follow_user)
+        number_of_likes              = ET.SubElement(root, "number_of_likes")
+        number_of_likes.text         = self.number_of_likes
+        actions_per_hour             = ET.SubElement(root, "actions_per_hour")
+        actions_per_hour.text        = self.actions_per_hour
 
         tree = ET.ElementTree(root)
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/account_credentials.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
@@ -91,16 +95,22 @@ class FileHandling():
         self.max_following    = root.find("max_following").text
         self.num_post         = root.find("num_post").text
         self.actions_per_hour = root.find("actions_per_hour").text
+        self.number_of_likes  = root.find("number_of_likes").text
 
-        if root.find("is_private").text == "True":
-            self.is_private = True
+        if root.find("follow_if_private").text == "True":
+            self.follow_if_private = True
         else:
-            self.is_private = False
+            self.follow_if_private = False
 
-        if root.find("is_empty").text == "True":
-            self.is_empty = True
+        if root.find("follow_user").text == "True":
+            self.follow_user = True
         else:
-            self.is_empty = False
+            self.follow_user = False
+
+        if root.find("follow_if_empty").text == "True":
+            self.follow_if_empty = True
+        else:
+            self.follow_if_empty = False
 
     def write_follower_list(self):
         root = ET.Element("followers")
