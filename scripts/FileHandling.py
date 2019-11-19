@@ -77,6 +77,10 @@ class FileHandling():
         follow_if_empty.text         = str(self.follow_if_empty)
         follow_user                  = ET.SubElement(root, "follow_user")
         follow_user.text             = str(self.follow_user)
+        follow_per_day               = ET.SubElement(root, "follow_per_day")
+        follow_per_day.text          = self.follow_per_day
+        collect_commenters           = ET.SubElement(root, "collect_commenters")
+        collect_commenters.text      = str(self.collect_commenters)
         number_of_likes              = ET.SubElement(root, "number_of_likes")
         number_of_likes.text         = self.number_of_likes
         actions_per_hour             = ET.SubElement(root, "actions_per_hour")
@@ -96,6 +100,7 @@ class FileHandling():
         self.num_post         = root.find("num_post").text
         self.actions_per_hour = root.find("actions_per_hour").text
         self.number_of_likes  = root.find("number_of_likes").text
+        self.follow_per_day   = root.find("follow_per_day").text
 
         if root.find("follow_if_private").text == "True":
             self.follow_if_private = True
@@ -111,6 +116,11 @@ class FileHandling():
             self.follow_if_empty = True
         else:
             self.follow_if_empty = False
+
+        if root.find("collect_commenters").text == "True":
+            self.collect_commenters = True
+        else:
+            self.collect_commenters = False
 
     def write_follower_list(self):
         root = ET.Element("followers")
@@ -262,4 +272,4 @@ class FileHandling():
             user_profile.num_following = user.find("num_following").text
             user_profile.num_posts     = user.find("num_posts").text
 
-            self.private.append(user_profile)
+            self.private_list.append(user_profile)
