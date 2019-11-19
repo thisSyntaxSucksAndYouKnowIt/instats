@@ -1,8 +1,9 @@
 from Actions import Actions
+from Realism import Realism
 from UserStats import UserStats
 from selenium.webdriver.common.action_chains import ActionChains
 
-class Farming(Actions):
+class Farming(Actions, Realism):
     def __init__(self):
         super().__init__()
 
