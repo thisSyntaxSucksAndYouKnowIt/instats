@@ -109,10 +109,11 @@ class Farming(Actions, Realism):
                     ActionChains(self.browser).key_down(Keys.CONTROL).click(user).key_up(Keys.CONTROL).perform()
                     tab_2 = self.browser.window_handles[1]
 
-                    self.browser(switch_to.window(tab_2)
+                    self.browser(switch_to.window(tab_2))
 
                     if self.is_spam_prevention() == True:
                         return 1
+
                     else:
                         for usr in self.private_list:
                             if usr.url == self.browser.current_url:
