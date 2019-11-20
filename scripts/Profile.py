@@ -103,23 +103,23 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             self.num_post           = input("How many posts the account should have: ")
 
             self.follow_user        = input("Do you want to follow users? [YES/NO]: ")
-                if self.follow_user.lower() == "yes":
-                    self.follow_user = True
-                else:
-                    self.follow_user = False
+            if self.follow_user.lower() == "yes":
+                self.follow_user = True
+            else:
+                self.follow_user = False
 
 
             self.follow_if_private  = input("Do you want to follow the account if it's empty? [YES/NO]: ")
-                if self.follow_if_private.lower() == "yes":
-                    self.follow_if_private = True
-                else:
-                    self.follow_if_private = False
+            if self.follow_if_private.lower() == "yes":
+                self.follow_if_private = True
+            else:
+                self.follow_if_private = False
 
             self.follow_if_empty    = input("Do you want to follow the account if it's private? [YES/NO]: ")
-                if self.follow_if_empty.lower() == "yes":
-                    self.follow_if_empty = True
-                else:
-                    self.follow_if_empty = False
+            if self.follow_if_empty.lower() == "yes":
+                self.follow_if_empty = True
+            else:
+                self.follow_if_empty = False
 
 
             self.follow_per_day     = input("How many do you want to follow every day: ")
@@ -127,11 +127,10 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             self.number_of_likes    = input("How many likes per profile do you want to leave: ")
 
             self.collect_commenters = input("Do you want to collects the commenters as well? [YES/NO]: ")
-                if self.collect_commenters.lower() == "yes":
-                    self.collect_commenters = True
-                else:
-                    self.collect_commenters = False
-
+            if self.collect_commenters.lower() == "yes":
+                self.collect_commenters = True
+            else:
+                self.collect_commenters = False
 
             self.write_account_credentials()
             self.write_farming_options()
@@ -142,6 +141,7 @@ class Profile(Farming, FileHandling, Browser, UserStats):
 
     def login_instagram(self):
         self.browser.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
+
         login_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
         login_box.send_keys(self.email)
 
