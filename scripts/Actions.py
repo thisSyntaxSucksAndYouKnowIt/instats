@@ -10,59 +10,63 @@ class Actions(Checks):
         pass
 
     def get_username(self):
-        username = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'nZSzR']/h1"))).text
+        username = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'nZSzR']/h1"))).text
         return username
 
     def get_profile(self, profile):
-        self.browser.get("https://www.instagram.com/" + profile)
+        self.get("https://www.instagram.com/" + profile)
+
+    def get_own_profile(self):
+        profile_icon = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Profile']")))
+        profile_icon.click()
 
     def get_postcount(self):
-        post_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
+        post_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
         return self.is_float(string)
 
     def get_bio(self):
-        bio = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//section/div[2]/span"))).text
+        bio = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//section/div[2]/span"))).text
         return bio
 
     def get_followers_count(self):
-        follower_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/a/span"))).get_attribute("title")
+        follower_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/a/span"))).get_attribute("title")
         return is_float(follower_count)
 
     def get_following_count(self):
-        following_count = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
+        following_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
         return is_float(following_count)
 
     def get_post_url(self, row, col):
-        url = self.browser.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(row)+"]/div["+str(col)+"]/a")
+        url = self.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')]["+str(row)+"]/div["+str(col)+"]/a")
         return url.get_attribute("href")
 
     def like_picture(self):
         try:
-            like = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Like']")))
+            like = WebDriverWait(self, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Like']")))
             like.click()
         except TimeoutException:
             pass
 
     def dislike_picture(self):
         try:
-            dislike = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
+            dislike = WebDriverWait(self, 2).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Unlike']")))
             dislike.click()
         except TimeoutException:
             pass
 
     def follow_user(self):
         try:
-            follow = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Follow')]")))
+            follow = WebDriverWait(self, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Follow')]")))
             follow.click()
         except TimeoutException:
             pass
 
     def unfollow_user(self):
         try:
-            following = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Following')]")))
+            following = WebDriverWait(self, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Following')]")))
             following.click()
 
-            unfollow = WebDriverWait(self.browser, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Unfollow')]")))
+            unfollow = WebDriverWait(self, 2).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Unfollow')]")))
             unfollow.click()
         except TimeoutException:
             pass
