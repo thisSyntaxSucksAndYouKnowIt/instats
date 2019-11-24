@@ -17,12 +17,12 @@ class Actions(Checks):
         self.get("https://www.instagram.com/" + profile)
 
     def get_own_profile(self):
-        profile_icon = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//span[@aria-label = 'Profile']")))
+        profile_icon = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@class = 'XrOey'][3]")))
         profile_icon.click()
 
     def get_postcount(self):
         post_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
-        return self.is_float(string)
+        return self.is_float(post_count)
 
     def get_bio(self):
         bio = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//section/div[2]/span"))).text
@@ -70,3 +70,8 @@ class Actions(Checks):
             unfollow.click()
         except TimeoutException:
             pass
+
+    def notifications_popup(self):
+        popup_box = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]")))
+        popup_box.click()
+

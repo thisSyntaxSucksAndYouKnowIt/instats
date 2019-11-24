@@ -71,7 +71,6 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             self.load_non_followback_list()
             self.load_private_list()
 
-            #self.browser = Browser(self.browser_name, self.proxy, self.headless, self.user_agent)
             if self.browser_name.lower() == "firefox":
                 self.create_browser_firefox()
             elif self.browser_name.lower() == "chrome":
@@ -146,7 +145,6 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             else:
                 self.collect_commenters = False
 
-            #self.browser = Browser(self.browser_name, self.proxy, self.headless, self.user_agent)
             if self.browser_name.lower() == "firefox":
                 print("create firefox")
                 self.create_browser_firefox()
@@ -157,12 +155,12 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             self.login_instagram()
             self.get_own_profile()
 
-            #self.user_name  = self.get_username()
-            #self.url        = self.browser.current_url
-            #self.post_count = self.get_postcount()
-            #self.bio        = self.get_bio()
-            #self.follower   = self.get_followers_count()
-            #self.following  = self.get_following_count()
+            self.user_name  = self.get_username()
+            self.url        = self.current_url
+            self.post_count = self.get_postcount()
+            self.bio        = self.get_bio()
+            self.follower   = self.get_followers_count()
+            self.following  = self.get_following_count()
 
 
     def login_instagram(self):
@@ -176,3 +174,5 @@ class Profile(Farming, FileHandling, Browser, UserStats):
 
         login_button = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//button[@type = 'submit']")))
         login_button.click()
+
+        self.notifications_popup()

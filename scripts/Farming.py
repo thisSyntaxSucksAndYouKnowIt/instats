@@ -109,7 +109,7 @@ class Farming(Actions, Realism):
                     ActionChains(self).key_down(Keys.CONTROL).click(user).key_up(Keys.CONTROL).perform()
                     tab_2 = self.window_handles[1]
 
-                    self.(switch_to.window(tab_2))
+                    self.switch_to.window(tab_2)
 
                     if self.is_spam_prevention() == True:
                         return 1
@@ -158,7 +158,7 @@ class Farming(Actions, Realism):
                                         self.like_posts(self.number_of_likes, usr_post_count, None)
 
                                 self.close()
-                                self.(switch_to.window(tab_1))
+                                self.switch_to.window(tab_1)
 
                 except NoSuchElementException:
                     return 0
