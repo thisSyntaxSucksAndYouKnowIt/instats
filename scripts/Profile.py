@@ -3,6 +3,10 @@ from FileHandling import FileHandling
 from Browser import Browser
 from UserStats import UserStats
 import getpass
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 class Profile(Farming, FileHandling, Browser, UserStats):
     def __init__(self):
@@ -11,19 +15,21 @@ class Profile(Farming, FileHandling, Browser, UserStats):
         self.password = None
 
         #Browser options
-        self.browser_name = None
-        self.proxy        = None
-        self.headless     = None
-        self.user_agent   = None
-        self.browser      = None
+        Browser.__init__(self)
+        #self.browser_name = None
+        #self.proxy        = None
+        #self.headless     = None
+        #self.user_agent   = None
+        #self.browser      = None
 
         #Account infos
-        self.user_name   = None
-        self.profile_url = None
-        self.post_count  = None
-        self.bio         = None
-        self.follower    = None
-        self.following   = None
+        UserStats.__init__(self)
+        #self.user_name   = None
+        #self.profile_url = None
+        #self.post_count  = None
+        #self.bio         = None
+        #self.follower    = None
+        #self.following   = None
 
         #Account followers/following
         self.follower_list  = []
@@ -65,7 +71,12 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             self.load_non_followback_list()
             self.load_private_list()
 
-            self.browser = Browser(self.browser_name, self.proxy, self.headless, self.user_agent)
+            #self.browser = Browser(self.browser_name, self.proxy, self.headless, self.user_agent)
+            if self.browser_name.lower() == "firefox":
+                self.create_browser_firefox()
+            elif self.browser_name.lower() == "chrome":
+                self.create_browser_chrome()
+
             login_instagram()
 
         elif choice.lower() == "no":
@@ -96,35 +107,38 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             else:
                 self.user_agent = None
 
-            self.min_followers      = input("Enter amount of followers the account should at least have: ")
-            self.max_followers      = input("Enter max amount of followers the account should have: ")
-            self.min_following      = input("Enter amount of following the account should at least have: ")
-            self.max_following      = input("Enter max amount of following the account should have: ")
-            self.num_post           = input("How many posts the account should have: ")
+            self.min_followers = input("Enter amount of followers the account should at least have: ")
+            self.max_followers = input("Enter max amount of followers the account should have: ")
+            self.min_following = input("Enter amount of following the account should at least have: ")
+            self.max_following = input("Enter max amount of following the account should have: ")
+            self.num_post      = input("How many posts the account should have: ")
 
-            self.follow_user        = input("Do you want to follow users? [YES/NO]: ")
+            self.follow_user = input("Do you want to follow users? [YES/NO]: ")
             if self.follow_user.lower() == "yes":
                 self.follow_user = True
-            else:
-                self.follow_user = False
 
+                self.follow_per_day = input("How many do you want to follow every day: ")
 
-            self.follow_if_private  = input("Do you want to follow the account if it's empty? [YES/NO]: ")
-            if self.follow_if_private.lower() == "yes":
-                self.follow_if_private = True
+                self.follow_if_private = input("Do you want to follow the account if it's empty? [YES/NO]: ")
+                if self.follow_if_private.lower() == "yes":
+                    self.follow_if_private = True
+                else:
+                    self.follow_if_private = False
+
+                self.follow_if_empty = input("Do you want to follow the account if it's private? [YES/NO]: ")
+                if self.follow_if_empty.lower() == "yes":
+                    self.follow_if_empty = True
+                else:
+                    self.follow_if_empty = False
+
             else:
+                self.follow_user       = False
                 self.follow_if_private = False
+                self.follow_if_empty   = False
+                self.follow_per_day    = 0
 
-            self.follow_if_empty    = input("Do you want to follow the account if it's private? [YES/NO]: ")
-            if self.follow_if_empty.lower() == "yes":
-                self.follow_if_empty = True
-            else:
-                self.follow_if_empty = False
-
-
-            self.follow_per_day     = input("How many do you want to follow every day: ")
-            self.actions_per_hour   = input("How many actions per hour do you feel safe performing: ")
-            self.number_of_likes    = input("How many likes per profile do you want to leave: ")
+            self.actions_per_hour = input("How many actions per hour do you feel safe performing: ")
+            self.number_of_likes  = input("How many likes per profile do you want to leave: ")
 
             self.collect_commenters = input("Do you want to collects the commenters as well? [YES/NO]: ")
             if self.collect_commenters.lower() == "yes":
@@ -132,21 +146,33 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             else:
                 self.collect_commenters = False
 
-            self.write_account_credentials()
-            self.write_farming_options()
-            self.write_browser_config()
+            #self.browser = Browser(self.browser_name, self.proxy, self.headless, self.user_agent)
+            if self.browser_name.lower() == "firefox":
+                print("create firefox")
+                self.create_browser_firefox()
+            elif self.browser_name.lower() == "chrome":
+                print("create chrome")
+                self.create_browser_chrome()
 
-            self.browser = Browser(self.browser_name, self.proxy, self.headless, self.user_agent)
-            login_instagram()
+            self.login_instagram()
+            self.get_own_profile()
+
+            #self.user_name  = self.get_username()
+            #self.url        = self.browser.current_url
+            #self.post_count = self.get_postcount()
+            #self.bio        = self.get_bio()
+            #self.follower   = self.get_followers_count()
+            #self.following  = self.get_following_count()
+
 
     def login_instagram(self):
-        self.browser.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
+        self.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
 
-        login_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
+        login_box = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
         login_box.send_keys(self.email)
 
-        pwd_box = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'password']")))
+        pwd_box = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'password']")))
         pwd_box.send_keys(self.password)
 
-        login_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, "//button[@type = 'submit']")))
+        login_button = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//button[@type = 'submit']")))
         login_button.click()

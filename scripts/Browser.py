@@ -4,24 +4,18 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 class Browser(webdriver.Firefox, webdriver.Chrome):
-    def __init__(self, browser, proxy, headless, user_agent):
-        self.browser_name = browser
-        self.proxy        = proxy
-        self.user_agent   = user_agent
-        self.headless     = headless
-
-        if self.browser_name == "Firefox":
-            self.create_browser_firefox()
-
-        elif self.browser_name == "Chrome":
-            self.create_browser_chrome()
+    def __init__(self):
+        self.browser_name = None
+        self.proxy        = None
+        self.user_agent   = None
+        self.headless     = None
 
     def create_browser_firefox(self):
         fox_options  = FirefoxOptions()
         fox_proxy    = None
         capabilities = None
 
-        if self.headless == True:
+        if self.headless == False:
             fox_options.add_argument("--headless")
 
         if self.proxy:
@@ -41,7 +35,7 @@ class Browser(webdriver.Firefox, webdriver.Chrome):
         chr_options  = ChromeOptions()
         capabilities = None
 
-        if self.headless == True:
+        if self.headless == False:
             chr_options.add_argument("headless")
 
         if self.proxy:
