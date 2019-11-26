@@ -2,10 +2,30 @@ from Actions import Actions
 from Realism import Realism
 from UserStats import UserStats
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
+import time
 
 class Farming(Actions, Realism):
     def __init__(self):
-        super().__init__()
+        #super().__init__()
+        self.min_followers      = None
+        self.max_followers      = None
+        self.min_following      = None
+        self.max_following      = None
+        self.num_post           = None
+        self.follow_if_private  = None
+        self.follow_if_empty    = None
+        self.follow_user        = None
+        self.follow_per_day     = None
+        self.follow_count       = None
+        self.actions_per_hour   = None
+        self.number_of_likes    = None
+        self.collect_commenters = None
 
     def collect_followers(self):
         prev_num = 1
@@ -87,7 +107,7 @@ class Farming(Actions, Realism):
         #//ul[contains(@class, 'Mr508')][1]/li/ul/div/li/div/span                   like reply
 
     def farm_likers(self):
-        self.get(url)
+        #self.get(url)
 
         like = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/button")))
         like.click()
@@ -172,20 +192,20 @@ class Farming(Actions, Realism):
             c = self.execute_script("return arguments[0].clientHeight;", like_popup)
 
 
-def like_posts(self, number_of_likes, number_of_posts, profile_url):
-    first_post = self.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')][1]/div[1]")
-    first_post.click()
+    def like_posts(self, number_of_likes, number_of_posts, profile_url):
+        first_post = self.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')][1]/div[1]")
+        first_post.click()
 
-    if number_of_likes > number_of_posts:
-        like_count = number_of_posts
+        if number_of_likes > number_of_posts:
+            like_count = number_of_posts
 
-    if profile_url != None:
-        self.get(profile_url)
+        if profile_url != None:
+            self.get(profile_url)
 
-    for x in range(1, like_count):
-        self.like_picture()
-        try:
-            next_post = self.find_elements_by_xpath("//a[contains(@class, 'coreSpriteRightPaginationArrow')]")
-            next_post.click()
-        except NoSuchElementException:
-            pass
+        for x in range(1, like_count):
+            self.like_picture()
+            try:
+                next_post = self.find_elements_by_xpath("//a[contains(@class, 'coreSpriteRightPaginationArrow')]")
+                next_post.click()
+            except NoSuchElementException:
+                pass
