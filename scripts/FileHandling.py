@@ -12,6 +12,13 @@ class FileHandling():
         except FileExistsError:
             print(str(self.user_name) + " folder already exists")
 
+    def print_profile_folders(self):
+        path = "Instats/Instats_Profiles"
+        dirs = os.listdir(path)
+
+        for f in dirs:
+            print(f)
+
     def write_browser_config(self):
         root = ET.Element("browser_config")
 
@@ -97,7 +104,7 @@ class FileHandling():
         self.max_followers    = root.find("max_followers").text
         self.min_following    = root.find("min_following").text
         self.max_following    = root.find("max_following").text
-        self.num_post         = root.find("num_post").text
+        self.post_count       = root.find("num_post").text
         self.actions_per_hour = root.find("actions_per_hour").text
         self.number_of_likes  = root.find("number_of_likes").text
         self.follow_per_day   = root.find("follow_per_day").text
@@ -138,8 +145,8 @@ class FileHandling():
             num_followers.text = user.num_followers
             num_following      = ET.SubElement(user, "num_following")
             num_following.text = user.num_following
-            num_posts          = ET.SubElement(user, "num_posts")
-            num_posts.text     = user.num_posts
+            post_count         = ET.SubElement(user, "post_count")
+            post_count.text    = user.post_count
 
         tree = ET.ElementTree(root)
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/followers.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
@@ -156,7 +163,7 @@ class FileHandling():
             user_profile.bio           = user.find("bio").text
             user_profile.num_followers = user.find("num_followers").text
             user_profile.num_following = user.find("num_following").text
-            user_profile.num_posts     = user.find("num_posts").text
+            user_profile.post_count    = user.find("num_posts").text
 
             self.follower_list.append(user_profile)
 
@@ -176,8 +183,8 @@ class FileHandling():
             num_followers.text = user.num_followers
             num_following      = ET.SubElement(user, "num_following")
             num_following.text = user.num_following
-            num_posts          = ET.SubElement(user, "num_posts")
-            num_posts.text     = user.num_posts
+            post_count         = ET.SubElement(user, "post_count")
+            post_count.text    = user.post_count
 
         tree = ET.ElementTree(root)
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/following.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
@@ -194,7 +201,7 @@ class FileHandling():
             user_profile.bio           = user.find("bio").text
             user_profile.num_followers = user.find("num_followers").text
             user_profile.num_following = user.find("num_following").text
-            user_profile.num_posts     = user.find("num_posts").text
+            user_profile.post_count    = user.find("post_count").text
 
             self.following_list.append(user_profile)
 
@@ -214,8 +221,8 @@ class FileHandling():
             num_followers.text = user.num_followers
             num_following      = ET.SubElement(user, "num_following")
             num_following.text = user.num_following
-            num_posts          = ET.SubElement(user, "num_posts")
-            num_posts.text     = user.num_posts
+            post_count         = ET.SubElement(user, "post_count")
+            post_count.text    = user.post_count
 
         tree = ET.ElementTree(root)
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/non_followback.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
@@ -232,7 +239,7 @@ class FileHandling():
             user_profile.bio           = user.find("bio").text
             user_profile.num_followers = user.find("num_followers").text
             user_profile.num_following = user.find("num_following").text
-            user_profile.num_posts     = user.find("num_posts").text
+            user_profile.post_count    = user.find("post_count").text
 
             self.non_followback.append(user_profile)
 
@@ -252,8 +259,8 @@ class FileHandling():
             num_followers.text = user.num_followers
             num_following      = ET.SubElement(user, "num_following")
             num_following.text = user.num_following
-            num_posts          = ET.SubElement(user, "num_posts")
-            num_posts.text     = user.num_posts
+            post_count         = ET.SubElement(user, "post_count")
+            post_count.text    = user.post_count
 
         tree = ET.ElementTree(root)
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/private.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
@@ -270,6 +277,6 @@ class FileHandling():
             user_profile.bio           = user.find("bio").text
             user_profile.num_followers = user.find("num_followers").text
             user_profile.num_following = user.find("num_following").text
-            user_profile.num_posts     = user.find("num_posts").text
+            user_profile.post_count    = user.find("post_count").text
 
             self.private_list.append(user_profile)
