@@ -16,10 +16,10 @@ class Profile(Farming, FileHandling, Browser, UserStats):
 
         #Browser options
         Browser.__init__(self)
-        
+
         #Account infos
         UserStats.__init__(self)
-        
+
         #Account followers/following
         self.follower_list  = []
         self.following_list = []
@@ -34,7 +34,7 @@ class Profile(Farming, FileHandling, Browser, UserStats):
 
         #Farming options
         Farming.__init__(self)
-        
+
     def initialize_profile(self):
         choice = input("Load an already existing profile? [YES/NO]: ")
         if choice.lower()  == "yes":
