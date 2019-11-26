@@ -25,8 +25,11 @@ class Actions(Checks):
         return self.is_float(post_count)
 
     def get_bio(self):
-        bio = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//section/div[2]/span"))).text
-        return bio
+        try:
+            bio = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//section/div[2]/span"))).text
+            return bio
+        except TimeoutException:
+            return "This user has no bio."
 
     def get_followers_count(self):
         follower_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/a/span"))).get_attribute("title")
