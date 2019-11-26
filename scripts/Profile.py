@@ -16,21 +16,10 @@ class Profile(Farming, FileHandling, Browser, UserStats):
 
         #Browser options
         Browser.__init__(self)
-        #self.browser_name = None
-        #self.proxy        = None
-        #self.headless     = None
-        #self.user_agent   = None
-        #self.browser      = None
-
+        
         #Account infos
         UserStats.__init__(self)
-        #self.user_name   = None
-        #self.profile_url = None
-        #self.post_count  = None
-        #self.bio         = None
-        #self.follower    = None
-        #self.following   = None
-
+        
         #Account followers/following
         self.follower_list  = []
         self.following_list = []
@@ -44,23 +33,12 @@ class Profile(Farming, FileHandling, Browser, UserStats):
         self.private_list               = []
 
         #Farming options
-        self.min_followers      = None
-        self.max_followers      = None
-        self.min_following      = None
-        self.max_following      = None
-        self.num_post           = None
-        self.follow_if_private  = None
-        self.follow_if_empty    = None
-        self.follow_user        = None
-        self.follow_per_day     = None
-        self.follow_count       = None
-        self.actions_per_hour   = None
-        self.number_of_likes    = None
-        self.collect_commenters = None
-
+        Farming.__init__(self)
+        
     def initialize_profile(self):
         choice = input("Load an already existing profile? [YES/NO]: ")
         if choice.lower()  == "yes":
+            self.print_profile_folders()
             self.user_name = input("Which account do you want to use? ")
 
             self.load_account_credentials()
@@ -162,6 +140,13 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             self.follower   = self.get_followers_count()
             self.following  = self.get_following_count()
 
+            self.write_account_credentials()
+            self.write_browser_config()
+            self.write_farming_options()
+            self.load_followers_list()
+            self.load_following_list()
+            self.load_private_list()
+            self.load_non_followback_list()
 
     def login_instagram(self):
         self.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
