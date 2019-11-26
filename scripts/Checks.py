@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import re
 
 class Checks:
     def __init__(self):
@@ -15,7 +16,7 @@ class Checks:
             return True
         return False
 
-    def is_float(string):
+    def is_float(self, string):
         var = re.sub(',','', string)
         return int(var)
 
