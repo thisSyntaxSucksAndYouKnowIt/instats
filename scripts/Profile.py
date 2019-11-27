@@ -54,7 +54,7 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             elif self.browser_name.lower() == "chrome":
                 self.create_browser_chrome()
 
-            login_instagram()
+            self.login_instagram()
 
         elif choice.lower() == "no":
             self.email    = input("Enter email: ")
@@ -140,6 +140,7 @@ class Profile(Farming, FileHandling, Browser, UserStats):
             self.follower   = self.get_followers_count()
             self.following  = self.get_following_count()
 
+            self.create_profile_folder()
             self.write_account_credentials()
             self.write_browser_config()
             self.write_farming_options()
