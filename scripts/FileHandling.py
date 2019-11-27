@@ -94,7 +94,7 @@ class FileHandling():
         actions_per_hour.text        = self.actions_per_hour
 
         tree = ET.ElementTree(root)
-        tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/account_credentials.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
+        tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/farming_options.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
 
     def load_farming_options(self):
         tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/farming_options.xml")
