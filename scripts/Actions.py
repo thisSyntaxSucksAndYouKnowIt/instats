@@ -75,6 +75,6 @@ class Actions(Checks):
             pass
 
     def notifications_popup(self):
-        popup_box = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]")))
+        popup_box = WebDriverWait(self, 10).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]")))
         popup_box.click()
 
