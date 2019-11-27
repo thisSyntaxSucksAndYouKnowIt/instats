@@ -85,7 +85,7 @@ class FileHandling():
         follow_user                  = ET.SubElement(root, "follow_user")
         follow_user.text             = str(self.follow_user)
         follow_per_day               = ET.SubElement(root, "follow_per_day")
-        follow_per_day.text          = self.follow_per_day
+        follow_per_day.text          = str(self.follow_per_day)
         collect_commenters           = ET.SubElement(root, "collect_commenters")
         collect_commenters.text      = str(self.collect_commenters)
         number_of_likes              = ET.SubElement(root, "number_of_likes")
@@ -100,14 +100,14 @@ class FileHandling():
         tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/farming_options.xml")
         root = tree.getroot()
 
-        self.min_followers    = root.find("min_followers").text
-        self.max_followers    = root.find("max_followers").text
-        self.min_following    = root.find("min_following").text
-        self.max_following    = root.find("max_following").text
-        self.post_count       = root.find("num_post").text
-        self.actions_per_hour = root.find("actions_per_hour").text
-        self.number_of_likes  = root.find("number_of_likes").text
-        self.follow_per_day   = root.find("follow_per_day").text
+        self.min_followers    = int(root.find("min_followers").text)
+        self.max_followers    = int(root.find("max_followers").text)
+        self.min_following    = int(root.find("min_following").text)
+        self.max_following    = int(root.find("max_following").text)
+        self.post_count       = int(root.find("num_post").text)
+        self.actions_per_hour = int(root.find("actions_per_hour").text)
+        self.number_of_likes  = int(root.find("number_of_likes").text)
+        self.follow_per_day   = int(root.find("follow_per_day").text)
 
         if root.find("follow_if_private").text == "True":
             self.follow_if_private = True
@@ -152,7 +152,11 @@ class FileHandling():
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/followers.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
 
     def load_followers_list(self):
-        tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/followers.xml")
+        try:
+            tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/followers.xml")
+        except OSError:
+            return 1
+
         root = tree.getroot()
 
         for user in root:
@@ -190,7 +194,11 @@ class FileHandling():
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/following.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
 
     def load_following_list(self):
-        tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/following.xml")
+        try:
+            tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/following.xml")
+        except OSError:
+            return 1
+
         root = tree.getroot()
 
         for user in root:
@@ -199,8 +207,8 @@ class FileHandling():
             user_profile.user_name     = user.find("user_name").text
             user_profile.url           = user.find("url").text
             user_profile.bio           = user.find("bio").text
-            user_profile.num_followers = user.find("num_followers").text
-            user_profile.num_following = user.find("num_following").text
+            user_profile.num_followers = int(user.find("num_followers").text)
+            user_profile.num_following = int(user.find("num_following").text)
             user_profile.post_count    = user.find("post_count").text
 
             self.following_list.append(user_profile)
@@ -217,18 +225,22 @@ class FileHandling():
             url.text           = user.url
             bio                = ET.SubElement(user, "bio")
             bio.text           = user.bio
-            num_followers      = ET.SubElement(user, "num_followers")
+            num_followers      = str(ET.SubElement(user, "num_followers"))
             num_followers.text = user.num_followers
-            num_following      = ET.SubElement(user, "num_following")
+            num_following      = str(ET.SubElement(user, "num_following"))
             num_following.text = user.num_following
             post_count         = ET.SubElement(user, "post_count")
-            post_count.text    = user.post_count
+            post_count.text    = str(user.post_count)
 
         tree = ET.ElementTree(root)
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/non_followback.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
 
     def load_non_followback_list(self):
-        tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/non_followback.xml")
+        try:
+            tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/non_followback.xml")
+        except OSError:
+            return 1
+
         root = tree.getroot()
 
         for user in root:
@@ -237,9 +249,9 @@ class FileHandling():
             user_profile.user_name     = user.find("user_name").text
             user_profile.url           = user.find("url").text
             user_profile.bio           = user.find("bio").text
-            user_profile.num_followers = user.find("num_followers").text
-            user_profile.num_following = user.find("num_following").text
-            user_profile.post_count    = user.find("post_count").text
+            user_profile.num_followers = int(user.find("num_followers").text)
+            user_profile.num_following = int(user.find("num_following").text)
+            user_profile.post_count    = int(user.find("post_count").text)
 
             self.non_followback.append(user_profile)
 
@@ -256,17 +268,21 @@ class FileHandling():
             bio                = ET.SubElement(user, "bio")
             bio.text           = user.bio
             num_followers      = ET.SubElement(user, "num_followers")
-            num_followers.text = user.num_followers
+            num_followers.text = str(user.num_followers)
             num_following      = ET.SubElement(user, "num_following")
-            num_following.text = user.num_following
+            num_following.text = str(user.num_following)
             post_count         = ET.SubElement(user, "post_count")
-            post_count.text    = user.post_count
+            post_count.text    = str(user.post_count)
 
         tree = ET.ElementTree(root)
         tree.write("Instats/Instats_Profiles/"+ str(self.user_name) +"/private.xml", pretty_print=True, xml_declaration=True, encoding="utf-8")
 
     def load_private_list(self):
-        tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/private.xml")
+        try:
+            tree = ET.parse("Instats/Instats_Profiles/"+ str(self.user_name) +"/private.xml")
+        except OSError:
+            return 1
+
         root = tree.getroot()
 
         for user in root:
@@ -275,8 +291,8 @@ class FileHandling():
             user_profile.user_name     = user.find("user_name").text
             user_profile.url           = user.find("url").text
             user_profile.bio           = user.find("bio").text
-            user_profile.num_followers = user.find("num_followers").text
-            user_profile.num_following = user.find("num_following").text
-            user_profile.post_count    = user.find("post_count").text
+            user_profile.num_followers = int(user.find("num_followers").text)
+            user_profile.num_following = int(user.find("num_following").text)
+            user_profile.post_count    = int(user.find("post_count").text)
 
             self.private_list.append(user_profile)
