@@ -15,7 +15,7 @@ class Browser(webdriver.Firefox, webdriver.Chrome):
         fox_proxy    = None
         capabilities = None
 
-        if self.headless == False:
+        if self.headless == True:
             fox_options.add_argument("--headless")
 
         if self.proxy:
@@ -35,7 +35,7 @@ class Browser(webdriver.Firefox, webdriver.Chrome):
         chr_options  = ChromeOptions()
         capabilities = None
 
-        if self.headless == False:
+        if self.headless == True:
             chr_options.add_argument("headless")
 
         if self.proxy:

@@ -43,6 +43,8 @@ class FileHandling():
 
         if root.find("headless").text == "None" or "False":
             self.headless = False
+        else:
+            self.headless = True
 
         if root.find("headless").text == "None":
             self.user_agent = None

@@ -74,9 +74,9 @@ class Profile(Farming, FileHandling, Browser, UserStats):
 
             self.headless = input("Do you want the browser to be visible? [YES/NO]: ")
             if self.headless.lower() == "yes":
-                self.headless = True
-            else:
                 self.headless = False
+            else:
+                self.headless = True
 
             self.user_agent = input("Do you want to use a custom user agent? [YES/NO]: ")
             if self.user_agent.lower() == "yes":
