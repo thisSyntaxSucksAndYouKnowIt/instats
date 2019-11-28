@@ -124,9 +124,11 @@ class Farming(Actions, Realism):
             for i in range(1, num):
                 try:
                     tab_1 = self.current_window_handle
-                    user  = self.find_element_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div["+str(num)+"]/div[2]/div[1]")
+                    user  = self.find_element_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div["+str(i)+"]/div[2]/div/div/a").get_attribute("href")
 
-                    ActionChains(self).key_down(Keys.CONTROL).click(user).key_up(Keys.CONTROL).perform()
+                    self.execute_script("window.open(arguments[0]);", user)
+
+                    time.sleep(2)
                     tab_2 = self.window_handles[1]
 
                     self.switch_to.window(tab_2)
