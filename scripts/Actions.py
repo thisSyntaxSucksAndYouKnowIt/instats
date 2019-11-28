@@ -21,7 +21,7 @@ class Actions(Checks):
         profile_icon.click()
 
     def get_postcount(self):
-        post_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li/span/span"))).text
+        post_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[1]/span/span"))).text
         return self.is_float(post_count)
 
     def get_bio(self):
@@ -32,11 +32,11 @@ class Actions(Checks):
             return "This user has no bio."
 
     def get_followers_count(self):
-        follower_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/a/span"))).text
+        follower_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][2]/span/span"))).text
         return self.is_float(follower_count)
 
     def get_following_count(self):
-        following_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/a/span"))).text
+        following_count = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//li[contains(@class, 'Y8-fY')][3]/span/span"))).text
         return self.is_float(following_count)
 
     def get_post_url(self, row, col):
