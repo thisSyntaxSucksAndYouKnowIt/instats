@@ -122,68 +122,67 @@ class Farming(Actions, Realism):
         while a/(b-c) != 1.0:
             num = len(self.find_elements_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div"))
             for i in range(1, num):
-                try:
-                    tab_1 = self.current_window_handle
-                    user  = self.find_element_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div["+str(i)+"]/div[2]/div/div/a").get_attribute("href")
+                tab_1 = self.current_window_handle
+                user  = self.find_element_by_xpath("//div[contains(@style, 'height: 356px; overflow: hidden auto;')]/div/div["+str(i)+"]/div[2]/div/div/a")
 
-                    self.execute_script("window.open(arguments[0]);", user)
+                self.execute_script("window.open(arguments[0]);", user)
 
-                    time.sleep(2)
-                    tab_2 = self.window_handles[1]
+                time.sleep(2)
+                tab_2 = self.window_handles[1]
 
-                    self.switch_to.window(tab_2)
+                self.switch_to.window(tab_2)
 
-                    if self.is_spam_prevention() == True:
-                        return 1
+                if self.is_spam_prevention() == True:
+                    print("ici?")
+                    return 1
+
+                else:
+                    for usr in self.private_list:
+                        if usr.url == self.current_url:
+                            print("ici? break?")
+                            break
+
+                    if self.get_postcount() == 0:
+                        if self.follow_if_empty == True:
+                            if self.follower_count > self.follow_per_day:
+                                self.follow_user()
+                                self.follower_count += 1
+
+                    if self.is_private() == True:
+                        private_user = UserStats()
+
+                        private_user.user_name     = self.get_username()
+                        private_user.url           = self.current_url
+                        private_user.bio           = self.get_bio()
+                        private_user.num_followers = self.get_followers_count()
+                        private_user.num_following = self.get_following_count()
+                        private_user.num_posts     = self.get_postcount()
+
+                        self.private_list.append(private_user)
+
+                        if self.follow_if_private == True:
+                            if self.follower_count > self.follow_per_day:
+                                self.follower_count += 1
+                                self.follow_user()
                     else:
-                        for usr in self.private_list:
-                            if usr.url == self.current_url:
-                                break
+                        usr_followers  = self.get_followers_count()
+                        usr_following  = self.get_following_count()
+                        usr_post_count = self.get_postcount()
 
-                            elif self.get_postcount() == 0:
-                                if self.follow_if_empty == True:
-                                    if self.follower_count > self.follow_per_day:
-                                        self.follow_user()
-                                        self.follower_count += 1
+                        if self.collect_commenters == True:
+                            collect_commenters()
 
-                            elif self.is_private() == True:
-                                private_user = UserStats()
+                        if usr_followers > self.min_followers and usr_post_count < self.max_followers:
+                            if self.follow_user == True:
+                                if self.follower_count > self.follow_per_day:
+                                    self.follower_count += 1
+                                    self.follow_user()
 
-                                private_user.user_name     = self.get_username()
-                                private_user.url           = self.current_url
-                                private_user.bio           = self.get_bio()
-                                private_user.num_followers = self.get_followers_count()
-                                private_user.num_following = self.get_following_count()
-                                private_user.num_posts     = self.get_post_count()
+                            if self.number_of_likes > 0:
+                                self.like_posts(self.number_of_likes, usr_post_count, None)
 
-                                self.private_list.append(private_user)
-
-                                if self.follow_if_private == True:
-                                    if self.follower_count > self.follow_per_day:
-                                        self.follower_count += 1
-                                        self.follow_user()
-                            else:
-                                usr_followers  = self.get_followers_count()
-                                usr_following  = self.get_following_count()
-                                usr_post_count = self.get_post_count()
-
-                                if self.collect_commenters == True:
-                                    collect_commenters()
-
-                                if usr_followers > self.min_followers and usr_post_count < self.max_followers:
-                                    if self.follow_user == True:
-                                        if self.follower_count > self.follow_per_day:
-                                            self.follower_count += 1
-                                            self.follow_user()
-
-                                    if self.number_of_likes > 0:
-                                        self.like_posts(self.number_of_likes, usr_post_count, None)
-
-                                self.close()
-                                self.switch_to.window(tab_1)
-
-                except NoSuchElementException:
-                    return 0
+                    self.execute_script("window.close();")
+                    self.switch_to.window(tab_1)
 
             self.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", like_popup)
 
@@ -195,19 +194,22 @@ class Farming(Actions, Realism):
 
 
     def like_posts(self, number_of_likes, number_of_posts, profile_url):
-        first_post = self.find_elements_by_xpath("//div[contains(@class, 'Nnq7C weEfm')][1]/div[1]")
+        like_count = None
+        first_post = self.find_element_by_xpath("//div[contains(@class, 'Nnq7C weEfm')][1]/div[1]")
         first_post.click()
 
         if number_of_likes > number_of_posts:
             like_count = number_of_posts
+        else:
+            like_count = number_of_likes
 
         if profile_url != None:
             self.get(profile_url)
 
-        for x in range(1, like_count):
+        for x in range(0, like_count):
             self.like_picture()
             try:
-                next_post = self.find_elements_by_xpath("//a[contains(@class, 'coreSpriteRightPaginationArrow')]")
+                next_post = self.find_element_by_xpath("//a[contains(@class, 'coreSpriteRightPaginationArrow')]")
                 next_post.click()
             except NoSuchElementException:
                 pass
