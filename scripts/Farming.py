@@ -107,8 +107,6 @@ class Farming(Actions, Realism):
         #//ul[contains(@class, 'Mr508')][1]/li/ul/div/li/div/span                   like reply
 
     def farm_likers(self):
-        #self.get(url)
-
         like = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'Nm9Fw')]/button")))
         like.click()
         like_popup = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@style, 'height: 356px; overflow: hidden auto;')]")))
@@ -133,13 +131,11 @@ class Farming(Actions, Realism):
                 self.switch_to.window(tab_2)
 
                 if self.is_spam_prevention() == True:
-                    print("ici?")
                     return 1
 
                 else:
                     for usr in self.private_list:
                         if usr.url == self.current_url:
-                            print("ici? break?")
                             break
 
                     if self.get_postcount() == 0:
