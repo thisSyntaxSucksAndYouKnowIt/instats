@@ -16,6 +16,13 @@ class Checks:
             return True
         return False
 
+    def is_private(self):
+        try:
+            WebDriverWait(self, 2).until(EC.presence_of_element_located((By.XPATH, "//h2[contains(string(), 'This Account is Private')]")))
+        except TimeoutException:
+            return False
+        return True
+
     def is_float(self, string):
         var = re.sub(',','', string)
         return int(var)
