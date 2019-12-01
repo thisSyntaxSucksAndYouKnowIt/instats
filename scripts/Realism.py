@@ -24,9 +24,14 @@ class Realism:
             self.execute_script("window.scrollBy(0,"+str(random.uniform(-40,-45))+")")
 
     def realistic_typing(self, box, string):
-        random.seed(datetime.datetime.now())
+        initial_wait = False
+        box.click()
 
         for char in string:
-            delay = random_number()
+            if initial_wait == False:
+                time.sleep(random.randrange(1,2))
+                initial_wait = True
+
+            delay = self.random_number()
             box.send_keys(char)
             time.sleep(delay)
