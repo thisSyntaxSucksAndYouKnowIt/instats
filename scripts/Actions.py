@@ -88,3 +88,9 @@ class Actions(Checks):
         popup_box = WebDriverWait(self, 10).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]")))
         popup_box.click()
 
+    def leave_comment(self, comment):
+        comment_box   = WebDriverWait(self, 10).until(EC.presence_of_element_located((By.XPATH, "//textarea[@aria-label = 'Add a comment…']")))
+        self.realistic_typing(comment_box, comment)
+
+        submit_button = WebDriverWait(self, 10).until(EC.presence_of_element_located((By.XPATH, "//button[@type = 'submit']")))
+        submit_button.click()
