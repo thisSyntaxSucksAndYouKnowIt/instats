@@ -1,7 +1,6 @@
 from selenium.webdriver.common.keys import Keys
 import random
 import time
-import datetime
 
 class Realism:
     def __init__(self):
@@ -9,9 +8,6 @@ class Realism:
 
     def random_number(self):
         return random.randint(1, 80) / 295
-
-    def timing_act(self, min_num, max_num):
-        return random.randrange(min_num, max_num)
 
     def scroll_down(self):
         for n in range(0, random.randrange(7,9)):
@@ -27,11 +23,11 @@ class Realism:
         initial_wait = False
         box.click()
 
-        for char in string:
-            if initial_wait == False:
-                time.sleep(random.randrange(1,2))
-                initial_wait = True
+        if initial_wait == False:
+            time.sleep(random.randrange(1,2))
+            initial_wait = True
 
+        for char in string:
             delay = self.random_number()
             box.send_keys(char)
             time.sleep(delay)
