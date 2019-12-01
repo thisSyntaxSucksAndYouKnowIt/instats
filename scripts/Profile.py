@@ -3,6 +3,8 @@ from FileHandling import FileHandling
 from Browser import Browser
 from UserStats import UserStats
 import getpass
+import time
+import random
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -152,11 +154,13 @@ class Profile(Farming, FileHandling, Browser, UserStats):
     def login_instagram(self):
         self.get("https://www.instagram.com/accounts/login/?source=auth_switcher")
 
+        time.sleep(random.randrange(1,4))
+
         login_box = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'username']")))
-        login_box.send_keys(self.email)
+        self.realistic_typing(login_box, self.email)
 
         pwd_box = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//input[@name = 'password']")))
-        pwd_box.send_keys(self.password)
+        self.realistic_typing(pwd_box, self.password)
 
         login_button = WebDriverWait(self, 5).until(EC.presence_of_element_located((By.XPATH, "//button[@type = 'submit']")))
         login_button.click()
