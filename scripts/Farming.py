@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 import time
+import random
 
 class Farming(Actions, Realism):
     def __init__(self):
@@ -125,66 +126,78 @@ class Farming(Actions, Realism):
 
                 self.execute_script("window.open(arguments[0]);", user)
 
-                time.sleep(2)
                 tab_2 = self.window_handles[1]
 
+                time.sleep(random.randrange(2,3))
                 self.switch_to.window(tab_2)
 
                 if self.is_spam_prevention() == True:
                     return 1
 
                 else:
+                    usr_name       = self.get_username()
+                    usr_url        = self.current_url
+                    usr_bio        = self.get_bio()
+                    usr_followers  = self.get_followers_count()
+                    usr_following  = self.get_following_count()
+                    usr_post_count = self.get_postcount()
+
                     for usr in self.private_list:
                         if usr.url == self.current_url:
+                            time.sleep(random.randrange(2,3))
                             break
 
                     if self.get_postcount() == 0:
+                        time.sleep(random.randrange(2,3))
+
                         if self.follow_if_empty == True:
                             if self.follower_count > self.follow_per_day:
                                 self.follow_user()
                                 self.follower_count += 1
+                        pass
 
-                    if self.is_private() == True:
+                    elif self.is_private() == True:
                         private_user = UserStats()
 
-                        private_user.user_name     = self.get_username()
-                        private_user.url           = self.current_url
-                        private_user.bio           = self.get_bio()
-                        private_user.num_followers = self.get_followers_count()
-                        private_user.num_following = self.get_following_count()
-                        private_user.num_posts     = self.get_postcount()
+                        private_user.user_name     = usr_name
+                        private_user.url           = usr_url
+                        private_user.bio           = usr_bio
+                        private_user.num_followers = usr_followers
+                        private_user.num_following = usr_following
+                        private_user.num_posts     = usr_post_count
 
                         self.private_list.append(private_user)
+                        time.sleep(random.randrange(2,3))
 
                         if self.follow_if_private == True:
+                            time.sleep(random.randrange(2,3))
                             if self.follower_count > self.follow_per_day:
                                 self.follower_count += 1
                                 self.follow_user()
-                    else:
-                        usr_followers  = self.get_followers_count()
-                        usr_following  = self.get_following_count()
-                        usr_post_count = self.get_postcount()
+                        pass
+
+                    elif usr_followers >= self.min_followers and usr_followers <= self.max_followers and usr_following >= self.min_following and usr_following <= self.max_following and usr_post_count != 0:
 
                         self.realistic_browsing()
 
-                        if usr_followers > self.min_followers and usr_post_count < self.max_followers:
-                            if self.follow_user == True:
-                                if self.follower_count > self.follow_per_day:
-                                    self.follower_count += 1
-                                    self.follow_user()
+                        if self.follow_user == True:
+                            if self.follower_count > self.follow_per_day:
+                                self.follower_count += 1
+                                self.follow_user()
 
-                            if self.number_of_likes > 0:
-                                self.like_posts(self.number_of_likes, usr_post_count, None)
+                        if self.number_of_likes > 0:
+                            self.like_posts(self.number_of_likes, usr_post_count, None)
 
-                                if self.collect_commenters == True:
-                                    collect_commenters()
+                            if self.collect_commenters == True:
+                                collect_commenters()
 
                     self.execute_script("window.close();")
+                    time.sleep(random.randrange(1,3))
                     self.switch_to.window(tab_1)
 
             self.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", like_popup)
 
-            time.sleep(2)
+            time.sleep(random.randrange(2,3))
 
             a = self.execute_script("return arguments[0].scrollTop;", like_popup)
             b = self.execute_script("return arguments[0].scrollHeight;", like_popup)
@@ -204,11 +217,14 @@ class Farming(Actions, Realism):
         if profile_url != None:
             self.get(profile_url)
 
+        time.sleep(random.randrange(1,2))
+
         for x in range(0, like_count):
-            time.sleep(random.randrange(2,4))
+            time.sleep(random.randrange(2,3))
             self.like_picture()
             try:
                 next_post = self.find_element_by_xpath("//a[contains(@class, 'coreSpriteRightPaginationArrow')]")
+                time.sleep(random.randrange(1,2))
                 next_post.click()
             except NoSuchElementException:
                 pass
