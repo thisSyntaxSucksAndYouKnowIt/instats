@@ -165,8 +165,7 @@ class Farming(Actions, Realism):
                         usr_following  = self.get_following_count()
                         usr_post_count = self.get_postcount()
 
-                        if self.collect_commenters == True:
-                            collect_commenters()
+                        self.realistic_browsing()
 
                         if usr_followers > self.min_followers and usr_post_count < self.max_followers:
                             if self.follow_user == True:
@@ -176,6 +175,9 @@ class Farming(Actions, Realism):
 
                             if self.number_of_likes > 0:
                                 self.like_posts(self.number_of_likes, usr_post_count, None)
+
+                                if self.collect_commenters == True:
+                                    collect_commenters()
 
                     self.execute_script("window.close();")
                     self.switch_to.window(tab_1)
@@ -203,6 +205,7 @@ class Farming(Actions, Realism):
             self.get(profile_url)
 
         for x in range(0, like_count):
+            time.sleep(random.randrange(2,4))
             self.like_picture()
             try:
                 next_post = self.find_element_by_xpath("//a[contains(@class, 'coreSpriteRightPaginationArrow')]")
